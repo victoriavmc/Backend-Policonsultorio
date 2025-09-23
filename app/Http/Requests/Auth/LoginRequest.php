@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class SendPinRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,17 +24,20 @@ class SendPinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|exists:usuarios,email',
+            'password' => 'required|min:4',
         ];
     }
 
-    public function messages(): array
+     public function messages(): array
     {
         return [
             'email.required' => 'El email es obligatorio',
             'email.email' => 'El email debe tener un formato válido',
-            'email.max' => 'El email no puede tener más de 255 caracteres',
-            'email.exists' => 'No se encontró una cuenta con este email'
+            'email.exists' => 'No se encontró una cuenta con este email',
+            'password.required' => 'La contraseña es obligatoria',
+            'password.confirmed' => 'Las contraseñas no coinciden',
+            'password.min' => 'La contraseña debe tener al menos 4 caracteres'
         ];
     }
 

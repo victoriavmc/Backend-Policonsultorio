@@ -46,7 +46,7 @@ class DatosPersonales extends Model
     /**
      * Relación: Datos personales tiene un usuario.
      */
-    public function usuario(): HasOne
+    public function usuarios(): HasOne
     {
         return $this->hasOne(User::class, 'datosPersonales_idDatosPersonales', 'idDatosPersonales');
     }
