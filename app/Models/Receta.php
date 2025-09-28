@@ -55,6 +55,6 @@ class Receta extends Model
      */
     public function diagnosticos(): HasOne
     {
-        return $this->hasOne(Indicacion::class, 'recetas_idrecetas', 'idRecetas');
+        return $this->hasOne(Indicacion::class, 'recetas_idRecetas', 'idRecetas');
     }
 }

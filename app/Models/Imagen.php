@@ -36,8 +36,8 @@ class Imagen extends Model
     /**
      * Relación uno a muchos con observacionIA
      */
-    public function observacionIA(): HasMany
+    public function observacionesIA(): HasMany
     {
-        return $this->hasMany(ObservacionIA::class, 'imagenes_idImagenes', 'idImagenes');
+        return $this->hasMany(ObservacionesIA::class, 'imagenes_idImagenes', 'idImagenes');
     }
 }
