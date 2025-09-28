@@ -22,12 +22,12 @@ Route::post('/verify-pin', [AuthController::class, 'verifyPin']);
 
 // Ruta para restablecer contraseña con el pin
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::apiResource('imagenes', ImagenController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('auditorias', AuditoriasController::class);
     Route::apiResource('indicaciones', IndicacionController::class);
     Route::apiResource('recetas', RecetaController::class);
-    Route::apiResource('imagenes', ImagenController::class);
     Route::resource('obras-sociales', ObraSocialController::class);
     Route::resource('pacientes', PacienteController::class);
     Route::resource('formularios-pdfs', FormularioPDFController::class);

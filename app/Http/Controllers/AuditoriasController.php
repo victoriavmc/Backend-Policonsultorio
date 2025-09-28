@@ -20,7 +20,10 @@ class AuditoriasController extends Controller
     {
         $auditorias = Auditoria::all();
 
-        return $this->successResponse('Lista de auditorías recuperada correctamente', $auditorias);
+        return $this->successResponse(
+            'Lista de auditorías recuperada correctamente',
+            ['auditorias' => $auditorias]
+        );
     }
 
     /**

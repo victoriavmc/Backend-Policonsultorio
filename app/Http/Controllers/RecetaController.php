@@ -20,7 +20,10 @@ class RecetaController extends Controller
     {
         $recetas = Receta::all();
 
-        return $this->successResponse('Lista de recetas recuperada correctamente', $recetas);
+        return $this->successResponse(
+            'Lista de recetas recuperada correctamente',
+            ['recetas' => $recetas]
+        );
     }
 
     /**
