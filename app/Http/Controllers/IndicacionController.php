@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuditoriaRequest;
-use App\Models\Auditoria;
+use App\Http\Controllers\Controller;
 use App\Traits\ApiResponse;
+use App\Models\Indicacion;
+use App\Http\Requests\IndicacionRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class AuditoriasController extends Controller
+class IndicacionController extends Controller
 {
     use ApiResponse;
 
@@ -18,37 +19,48 @@ class AuditoriasController extends Controller
      */
     public function index(): JsonResponse
     {
-        $auditorias = Auditoria::all();
+        try {
+            $indicaciones = Indicacion::all();
 
-        return $this->successResponse('Lista de auditorías recuperada correctamente', $auditorias);
+            return $this->successResponse(
+                'Lista de indicaciones recuperada correctamente',
+                ['indicaciones' => $indicaciones]
+            );
+        } catch (\Exception $e) {
+            Log::error('Error al obtener indicaciones', [
+                'error' => $e->getMessage()
+            ]);
+
+            return $this->errorResponse('Error al obtener las indicaciones');
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AuditoriaRequest $request): JsonResponse
+    public function store(IndicacionRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
 
-            $auditoria = Auditoria::create($request->validated());
+            $indicacion = Indicacion::create($request->validated());
 
             DB::commit();
 
-            return $this->createdResponse('Auditoría creada exitosamente', $auditoria);
+            return $this->createdResponse('Indicación creada exitosamente', $indicacion);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
 
-            Log::error('Error de base de datos al crear auditoría', [
+            Log::error('Error de base de datos al crear indicación', [
                 'error' => $e->getMessage(),
                 'input' => $request->validated()
             ]);
 
-            return $this->databaseErrorResponse('Error al crear la auditoría');
+            return $this->databaseErrorResponse('Error al crear la indicación');
         } catch (\Exception $e) {
             DB::rollBack();
 
-            Log::error('Error inesperado al crear auditoría', [
+            Log::error('Error inesperado al crear indicación', [
                 'error' => $e->getMessage(),
                 'input' => $request->validated()
             ]);
@@ -63,57 +75,57 @@ class AuditoriasController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $auditoria = Auditoria::findOrFail($id);
+            $indicacion = Indicacion::findOrFail($id);
 
-            return $this->successResponse('Auditoría encontrada', $auditoria);
+            return $this->successResponse('Indicación encontrada', $indicacion);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::warning('Auditoría no encontrada', ['id' => $id]);
+            Log::warning('Indicación no encontrada', ['id' => $id]);
 
-            return $this->notFoundResponse('Auditoría no encontrada');
+            return $this->notFoundResponse('Indicación no encontrada');
         } catch (\Exception $e) {
-            Log::error('Error al obtener auditoría', [
+            Log::error('Error al obtener indicación', [
                 'error' => $e->getMessage(),
                 'id' => $id
             ]);
 
-            return $this->errorResponse('Error al obtener la auditoría');
+            return $this->errorResponse('Error al obtener la indicación');
         }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(AuditoriaRequest $request, int $id): JsonResponse
+    public function update(IndicacionRequest $request, int $id): JsonResponse
     {
         try {
             DB::beginTransaction();
 
-            $auditoria = Auditoria::findOrFail($id);
-            $auditoria->update($request->validated());
+            $indicacion = Indicacion::findOrFail($id);
+            $indicacion->update($request->validated());
 
             DB::commit();
 
-            return $this->successResponse('Auditoría actualizada exitosamente', $auditoria->fresh());
+            return $this->successResponse('Indicación actualizada exitosamente', $indicacion->fresh());
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
 
-            Log::warning('Auditoría no encontrada para actualizar', ['id' => $id]);
+            Log::warning('Indicación no encontrada para actualizar', ['id' => $id]);
 
-            return $this->notFoundResponse('Auditoría no encontrada');
+            return $this->notFoundResponse('Indicación no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
 
-            Log::error('Error de base de datos al actualizar auditoría', [
+            Log::error('Error de base de datos al actualizar indicación', [
                 'error' => $e->getMessage(),
                 'id' => $id,
                 'input' => $request->validated()
             ]);
 
-            return $this->databaseErrorResponse('Error al actualizar la auditoría');
+            return $this->databaseErrorResponse('Error al actualizar la indicación');
         } catch (\Exception $e) {
             DB::rollBack();
 
-            Log::error('Error inesperado al actualizar auditoría', [
+            Log::error('Error inesperado al actualizar indicación', [
                 'error' => $e->getMessage(),
                 'id' => $id,
                 'input' => $request->validated()
@@ -131,31 +143,31 @@ class AuditoriasController extends Controller
         try {
             DB::beginTransaction();
 
-            $auditoria = Auditoria::findOrFail($id);
-            $auditoria->delete();
+            $indicacion = Indicacion::findOrFail($id);
+            $indicacion->delete();
 
             DB::commit();
 
-            return $this->successResponse('Auditoría eliminada exitosamente');
+            return $this->successResponse('Indicación eliminada exitosamente');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
 
-            Log::warning('Auditoría no encontrada para eliminar', ['id' => $id]);
+            Log::warning('Indicación no encontrada para eliminar', ['id' => $id]);
 
-            return $this->notFoundResponse('Auditoría no encontrada');
+            return $this->notFoundResponse('Indicación no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
 
-            Log::error('Error de base de datos al eliminar auditoría', [
+            Log::error('Error de base de datos al eliminar indicación', [
                 'error' => $e->getMessage(),
                 'id' => $id
             ]);
 
-            return $this->databaseErrorResponse('Error al eliminar la auditoría');
+            return $this->databaseErrorResponse('Error al eliminar la indicación');
         } catch (\Exception $e) {
             DB::rollBack();
 
-            Log::error('Error inesperado al eliminar auditoría', [
+            Log::error('Error inesperado al eliminar indicación', [
                 'error' => $e->getMessage(),
                 'id' => $id
             ]);

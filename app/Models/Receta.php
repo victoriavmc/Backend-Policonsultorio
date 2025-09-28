@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Recetas extends Model
+class Receta extends Model
 {
     /**
      * La tabla asociada con el modelo.
@@ -47,7 +47,7 @@ class Recetas extends Model
      */
     public function indicaciones(): BelongsTo
     {
-        return $this->belongsTo(Indicaciones::class, 'indicaciones_idIndicaciones', 'idIndicaciones');
+        return $this->belongsTo(Indicacion::class, 'indicaciones_idIndicaciones', 'idIndicaciones');
     }
 
     /**
@@ -55,6 +55,6 @@ class Recetas extends Model
      */
     public function diagnosticos(): HasOne
     {
-        return $this->hasOne(Indicaciones::class, 'recetas_idrecetas', 'idRecetas');
+        return $this->hasOne(Indicacion::class, 'recetas_idrecetas', 'idRecetas');
     }
 }

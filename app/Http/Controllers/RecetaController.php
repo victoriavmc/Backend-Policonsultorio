@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuditoriaRequest;
-use App\Models\Auditoria;
+use App\Http\Requests\RecetaRequest;
+use App\Models\Receta;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class AuditoriasController extends Controller
+class RecetaController extends Controller
 {
     use ApiResponse;
 
@@ -18,37 +18,37 @@ class AuditoriasController extends Controller
      */
     public function index(): JsonResponse
     {
-        $auditorias = Auditoria::all();
+        $recetas = Receta::all();
 
-        return $this->successResponse('Lista de auditorías recuperada correctamente', $auditorias);
+        return $this->successResponse('Lista de recetas recuperada correctamente', $recetas);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AuditoriaRequest $request): JsonResponse
+    public function store(RecetaRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
 
-            $auditoria = Auditoria::create($request->validated());
+            $receta = Receta::create($request->validated());
 
             DB::commit();
 
-            return $this->createdResponse('Auditoría creada exitosamente', $auditoria);
+            return $this->createdResponse('Receta creada exitosamente', $receta);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
 
-            Log::error('Error de base de datos al crear auditoría', [
+            Log::error('Error de base de datos al crear receta', [
                 'error' => $e->getMessage(),
                 'input' => $request->validated()
             ]);
 
-            return $this->databaseErrorResponse('Error al crear la auditoría');
+            return $this->databaseErrorResponse('Error al crear la receta');
         } catch (\Exception $e) {
             DB::rollBack();
 
-            Log::error('Error inesperado al crear auditoría', [
+            Log::error('Error inesperado al crear receta', [
                 'error' => $e->getMessage(),
                 'input' => $request->validated()
             ]);
@@ -63,57 +63,57 @@ class AuditoriasController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $auditoria = Auditoria::findOrFail($id);
+            $receta = Receta::findOrFail($id);
 
-            return $this->successResponse('Auditoría encontrada', $auditoria);
+            return $this->successResponse('Receta encontrada', $receta);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::warning('Auditoría no encontrada', ['id' => $id]);
+            Log::warning('Receta no encontrada', ['id' => $id]);
 
-            return $this->notFoundResponse('Auditoría no encontrada');
+            return $this->notFoundResponse('Receta no encontrada');
         } catch (\Exception $e) {
-            Log::error('Error al obtener auditoría', [
+            Log::error('Error al obtener receta', [
                 'error' => $e->getMessage(),
                 'id' => $id
             ]);
 
-            return $this->errorResponse('Error al obtener la auditoría');
+            return $this->errorResponse('Error al obtener la receta');
         }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(AuditoriaRequest $request, int $id): JsonResponse
+    public function update(RecetaRequest $request, int $id): JsonResponse
     {
         try {
             DB::beginTransaction();
 
-            $auditoria = Auditoria::findOrFail($id);
-            $auditoria->update($request->validated());
+            $receta = Receta::findOrFail($id);
+            $receta->update($request->validated());
 
             DB::commit();
 
-            return $this->successResponse('Auditoría actualizada exitosamente', $auditoria->fresh());
+            return $this->successResponse('Receta actualizada exitosamente', $receta->fresh());
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
 
-            Log::warning('Auditoría no encontrada para actualizar', ['id' => $id]);
+            Log::warning('Receta no encontrada para actualizar', ['id' => $id]);
 
-            return $this->notFoundResponse('Auditoría no encontrada');
+            return $this->notFoundResponse('Receta no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
 
-            Log::error('Error de base de datos al actualizar auditoría', [
+            Log::error('Error de base de datos al actualizar receta', [
                 'error' => $e->getMessage(),
                 'id' => $id,
                 'input' => $request->validated()
             ]);
 
-            return $this->databaseErrorResponse('Error al actualizar la auditoría');
+            return $this->databaseErrorResponse('Error al actualizar la receta');
         } catch (\Exception $e) {
             DB::rollBack();
 
-            Log::error('Error inesperado al actualizar auditoría', [
+            Log::error('Error inesperado al actualizar receta', [
                 'error' => $e->getMessage(),
                 'id' => $id,
                 'input' => $request->validated()
@@ -131,31 +131,31 @@ class AuditoriasController extends Controller
         try {
             DB::beginTransaction();
 
-            $auditoria = Auditoria::findOrFail($id);
-            $auditoria->delete();
+            $receta = Receta::findOrFail($id);
+            $receta->delete();
 
             DB::commit();
 
-            return $this->successResponse('Auditoría eliminada exitosamente');
+            return $this->successResponse('Receta eliminada exitosamente');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
 
-            Log::warning('Auditoría no encontrada para eliminar', ['id' => $id]);
+            Log::warning('Receta no encontrada para eliminar', ['id' => $id]);
 
-            return $this->notFoundResponse('Auditoría no encontrada');
+            return $this->notFoundResponse('Receta no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
 
-            Log::error('Error de base de datos al eliminar auditoría', [
+            Log::error('Error de base de datos al eliminar receta', [
                 'error' => $e->getMessage(),
                 'id' => $id
             ]);
 
-            return $this->databaseErrorResponse('Error al eliminar la auditoría');
+            return $this->databaseErrorResponse('Error al eliminar la receta');
         } catch (\Exception $e) {
             DB::rollBack();
 
-            Log::error('Error inesperado al eliminar auditoría', [
+            Log::error('Error inesperado al eliminar receta', [
                 'error' => $e->getMessage(),
                 'id' => $id
             ]);

@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Indicaciones extends Model
+class Indicacion extends Model
 {
-        /**
+    /**
      * La tabla asociada con el modelo.
      */
     protected $table = 'indicaciones';
@@ -40,6 +39,6 @@ class Indicaciones extends Model
      */
     public function recetas(): HasMany
     {
-        return $this->hasMany(Recetas::class, 'indicaciones_idIndicaciones', 'idIndicaciones');
+        return $this->hasMany(Receta::class, 'indicaciones_idIndicaciones', 'idIndicaciones');
     }
 }

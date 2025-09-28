@@ -51,6 +51,8 @@ class AuthService
 
     /**
      * Solicita un pin de restablecimiento
+     * 
+     * @return array
      */
     public function requestPasswordResetPin(string $email)
     {

@@ -169,6 +169,6 @@ class User extends Authenticatable
      */
     public function datosPersonales()
     {
-        return $this->belongsTo(DatosPersonales::class, 'datosPersonales_idDatosPersonales', 'idDatosPersonales');
+        return $this->belongsTo(DatoPersonal::class, 'datosPersonales_idDatosPersonales', 'idDatosPersonales');
     }
 }
