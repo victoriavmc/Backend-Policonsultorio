@@ -50,4 +50,11 @@ class DatoPersonal extends Model
     {
         return $this->hasOne(User::class, 'datosPersonales_idDatosPersonales', 'idDatosPersonales');
     }
+     /**
+     * Relación: Datos personales tiene un paciente.
+     */
+    public function pacientes(): HasOne
+    {
+        return $this->hasOne(Paciente::class, 'datosPersonales_iddatosPersonales', 'idDatosPersonales');
+    }
 }

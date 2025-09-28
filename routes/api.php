@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\IndicacionController;
 use App\Http\Controllers\RecetaController;
+use App\Http\Controllers\FormularioPDFController;
+use App\Http\Controllers\ObraSocialController;
+use App\Http\Controllers\PacienteController;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes
@@ -25,4 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('indicaciones', IndicacionController::class);
     Route::apiResource('recetas', RecetaController::class);
     Route::apiResource('imagenes', ImagenController::class);
+    Route::resource('obras-sociales', ObraSocialController::class);
+    Route::resource('pacientes', PacienteController::class);
+    Route::resource('formularios-pdfs', FormularioPDFController::class);
 });
