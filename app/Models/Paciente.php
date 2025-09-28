@@ -58,7 +58,11 @@ class Paciente extends Model
         return $this->belongsTo(ObraSocial::class, 'obrasSociales_idobrasSociales');
     }
 
-    //Envia a turnos su id (HASMANY)
-    // (No usamos los id automaticos de laravel, tenes que pasar el id que usamos ejemplo:
-    //return $this->belongsTo(ObraSocial::class, 'obrasSociales_idobrasSociales', 'idobrasSociales'); )
+    /**
+     * Get turnos associated with the patient.
+     */
+    public function turnos()
+    {
+        return $this->hasMany(Turno::class, 'pacientes_idPacientes', 'idpacientes');
+    }
 }
