@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('horarios', function (Blueprint $table) {
-            $table->id('idHorarios');
+        Schema::create('tratamientos', function (Blueprint $table) {
+            $table->id('idTratamientos');
+            $table->string('nombre',45);
+            $table->string('descripcion',255);
+            $table->time('tiempoEstimado');
             $table->timestamps();
-            $table->string('dia',45);
-            $table->time('horaInicio');
-            $table->time('horaFin');
-            $table->enum('disponible',['Disponible','No Disponible']);
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('horarios');
+        Schema::dropIfExists('tratamientos');
     }
 };

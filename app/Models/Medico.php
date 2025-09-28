@@ -17,9 +17,9 @@ class Medico extends Model
     }
 
     // Envia a turnos y horariosmedicos
-    // public function turnos(){
-    //     return $this->hasMany(Turno::class, 'medicos_idMedicos', 'idMedicos');
-    // }
+    public function turnos(){
+        return $this->hasMany(Turno::class, 'medicos_idMedicos', 'idMedicos');
+    }
 
     public function HorariosMedico(){
         return $this->hasMany(HorariosMedico::class, 'medicos_idMedicos', 'idMedicos');

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('horariosMedicos', function (Blueprint $table) {
             $table->id('idHorariosMedicos');
             $table->timestamps();
-            $table->string('disponible', 45);
+            $table->enum('disponible',['Disponible','No Disponible']);
             $table->foreignId('horarios_idHorarios')->constrained('horarios','idHorarios');
             $table->foreignId('medicos_idMedicos')->constrained('medicos','idMedicos');
         });

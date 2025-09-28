@@ -13,7 +13,7 @@ class DatoPersonal extends Model
     /**
      * La tabla asociada con el modelo.
      */
-    protected $table = 'datos_personales';
+    protected $table = 'datosPersonales';
 
     /**
      * La clave primaria asociada con la tabla.
