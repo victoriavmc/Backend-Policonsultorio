@@ -55,6 +55,6 @@ class DatosPersonales extends Model
      */
     public function pacientes(): HasOne
     {
-        return $this->hasOne(Pacientes::class, 'datosPersonales_iddatosPersonales', 'idDatosPersonales');
+        return $this->hasOne(Paciente::class, 'datosPersonales_iddatosPersonales', 'idDatosPersonales');
     }
 }

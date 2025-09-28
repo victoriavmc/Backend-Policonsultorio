@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FormulariosPDF extends Model
+class ObraSocial extends Model
 {
     use HasFactory;
 
@@ -14,14 +14,14 @@ class FormulariosPDF extends Model
      *
      * @var string
      */
-    protected $table = 'formulariosPDFs';
+    protected $table = 'obrasSociales';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'idformulariosPDFs';
+    protected $primaryKey = 'idobrasSociales';
 
     /**
      * Indicates if the model should be timestamped.
@@ -36,8 +36,16 @@ class FormulariosPDF extends Model
      * @var array
      */
     protected $fillable = [
-        'tipo',
         'nombre',
-        'formulario',
+        'estado',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'estado' => 'string',
     ];
 }

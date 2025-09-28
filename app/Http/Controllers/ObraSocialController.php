@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ObrasSociales;
+use App\Models\ObraSocial;
 use Illuminate\Http\Request;
 
 class ObraSocialController extends Controller
@@ -12,7 +12,7 @@ class ObraSocialController extends Controller
      */
     public function index()
     {
-        return ObrasSociales::all();
+        return ObraSocial::all();
     }
 
     /**
@@ -25,7 +25,7 @@ class ObraSocialController extends Controller
             'estado' => 'required|string|in:Activo,Inactivo,Suspendido,ObraSocialInactiva',
         ]);
 
-        $obraSocial = ObrasSociales::create($request->all());
+        $obraSocial = ObraSocial::create($request->all());
 
         return response()->json($obraSocial, 201);
     }
@@ -33,7 +33,7 @@ class ObraSocialController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ObrasSociales $obraSocial)
+    public function show(ObraSocial $obraSocial)
     {
         return $obraSocial;
     }
@@ -41,7 +41,7 @@ class ObraSocialController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ObrasSociales $obraSocial)
+    public function update(Request $request, ObraSocial $obraSocial)
     {
         $request->validate([
             'nombre' => 'string|max:45',
@@ -56,7 +56,7 @@ class ObraSocialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ObrasSociales $obraSocial)
+    public function destroy(ObraSocial $obraSocial)
     {
         $obraSocial->delete();
 

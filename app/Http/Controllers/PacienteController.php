@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pacientes;
+use App\Models\Paciente;
 use Illuminate\Http\Request;
 
 class PacienteController extends Controller
@@ -12,7 +12,7 @@ class PacienteController extends Controller
      */
     public function index()
     {
-        return Pacientes::with(['datosPersonales', 'obraSocial'])->get();
+        return Paciente::with(['datosPersonales', 'obraSocial'])->get();
     }
 
     /**
@@ -27,7 +27,7 @@ class PacienteController extends Controller
             'obrasSociales_idobrasSociales' => 'required|exists:obrasSociales,idobrasSociales',
         ]);
 
-        $paciente = Pacientes::create($request->all());
+        $paciente = Paciente::create($request->all());
 
         return response()->json($paciente, 201);
     }
@@ -35,7 +35,7 @@ class PacienteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pacientes $paciente)
+    public function show(Paciente $paciente)
     {
         return $paciente->load(['datosPersonales', 'obraSocial']);
     }
@@ -43,7 +43,7 @@ class PacienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pacientes $paciente)
+    public function update(Request $request, Paciente $paciente)
     {
         $request->validate([
             'particular' => 'boolean',
@@ -60,7 +60,7 @@ class PacienteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pacientes $paciente)
+    public function destroy(Paciente $paciente)
     {
         $paciente->delete();
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FormulariosPDF;
+use App\Models\FormularioPDF;
 use Illuminate\Http\Request;
 
 class FormularioPDFController extends Controller
@@ -12,7 +12,7 @@ class FormularioPDFController extends Controller
      */
     public function index()
     {
-        return FormulariosPDF::all();
+        return FormularioPDF::all();
     }
 
     /**
@@ -26,7 +26,7 @@ class FormularioPDFController extends Controller
             'formulario' => 'nullable|string|max:255',
         ]);
 
-        $formularioPDF = FormulariosPDF::create($request->all());
+        $formularioPDF = FormularioPDF::create($request->all());
 
         return response()->json($formularioPDF, 201);
     }
@@ -34,7 +34,7 @@ class FormularioPDFController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FormulariosPDF $formularioPDF)
+    public function show(FormularioPDF $formularioPDF)
     {
         return $formularioPDF;
     }
@@ -42,7 +42,7 @@ class FormularioPDFController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FormulariosPDF $formularioPDF)
+    public function update(Request $request, FormularioPDF $formularioPDF)
     {
         $request->validate([
             'tipo' => 'nullable|string|max:45',
@@ -58,7 +58,7 @@ class FormularioPDFController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FormulariosPDF $formularioPDF)
+    public function destroy(FormularioPDF $formularioPDF)
     {
         $formularioPDF->delete();
 

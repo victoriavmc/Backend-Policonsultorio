@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pacientes extends Model
+class Paciente extends Model
 {
     use HasFactory;
 
@@ -55,6 +55,6 @@ class Pacientes extends Model
      */
     public function obraSocial()
     {
-        return $this->belongsTo(ObrasSociales::class, 'obrasSociales_idobrasSociales');
+        return $this->belongsTo(ObraSocial::class, 'obrasSociales_idobrasSociales');
     }
 }
