@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FormulariosPDF;
 use Illuminate\Http\Request;
 
-class FormulariosPDFController extends Controller
+class FormularioPDFController extends Controller
 {
     /**
      * Display a listing of the resource.

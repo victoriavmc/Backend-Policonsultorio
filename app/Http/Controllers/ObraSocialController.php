@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ObrasSociales;
 use Illuminate\Http\Request;
 
-class ObrasSocialesController extends Controller
+class ObraSocialController extends Controller
 {
     /**
      * Display a listing of the resource.

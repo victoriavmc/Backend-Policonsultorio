@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pacientes;
 use Illuminate\Http\Request;
 
-class PacientesController extends Controller
+class PacienteController extends Controller
 {
     /**
      * Display a listing of the resource.
