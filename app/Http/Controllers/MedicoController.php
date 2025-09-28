@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medico;
 use Illuminate\Http\Request;
 
-class IndicacionesController extends Controller
+class MedicoController
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +26,7 @@ class IndicacionesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Medico $medico)
     {
         //
     }
@@ -33,7 +34,7 @@ class IndicacionesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Medico $medico)
     {
         //
     }
@@ -41,7 +42,7 @@ class IndicacionesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Medico $medico)
     {
         //
     }

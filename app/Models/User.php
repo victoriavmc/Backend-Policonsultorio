@@ -171,4 +171,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(DatosPersonales::class, 'datosPersonales_idDatosPersonales', 'idDatosPersonales');
     }
+
+    // TODAS LAS CONEXIONES Quien recibe y quien va
+    public function medicos(){
+        return $this->hasMany(Medico::class, 'usuarios_idUsuarios', 'idUsuarios');
+    }
 }
