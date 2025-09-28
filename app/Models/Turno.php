@@ -24,7 +24,7 @@ class Turno extends Model
         'seguimientosPagos_idSeguimientosPagos'
     ];
 
-    // Relaciones
+    // Recibe
     public function paciente() {
         return $this->belongsTo(Paciente::class, 'pacientes_idPacientes', 'idPacientes');
     }
@@ -38,6 +38,6 @@ class Turno extends Model
     }
 
     public function seguimientoPago() {
-        return $this->belongsTo(SeguimientoPago::class, 'seguimientosPagos_idSeguimientosPagos', 'idSeguimientosPagos');
+        return $this->belongsTo(SeguimientosPago::class, 'seguimientosPagos_idSeguimientosPagos', 'idSeguimientosPagos');
     }
 }
