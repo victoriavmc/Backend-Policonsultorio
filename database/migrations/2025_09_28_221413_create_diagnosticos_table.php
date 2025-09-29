@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('observacion',255)->nullable();
             $table->string('clasificacion',255);
             $table->string('contenidoFormulario',255)->nullable();
-            $table->foreignId('observacionesIA_idObservacionesIA')->constrained('observacionesIA','idObservacionIA');
+            $table->foreignId('observacionesIA_idObservacionesIA')->constrained('observacionesIA','idObservacionesIA');
             $table->foreignId('recetas_idRecetas')->constrained('recetas','idRecetas');
             
         });

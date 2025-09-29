@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('obrasSociales_idObrasSociales');
 
             $table->foreign('datosPersonales_idDatosPersonales', 'fk_pacientes_datosPersonales1')
-                  ->references('idDatosPersonales')->on('datos_personales')
+                  ->references('idDatosPersonales')->on('datosPersonales')
                   ->onDelete('no action')
                   ->onUpdate('no action');
 

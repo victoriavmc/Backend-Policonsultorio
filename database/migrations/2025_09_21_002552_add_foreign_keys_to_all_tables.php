@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::table('usuarios', function (Blueprint $table) {
             $table->foreign('datosPersonales_idDatosPersonales', 'fk_usuarios_datosPersonales')
                 ->references('idDatosPersonales')
-                ->on('datos_personales')
+                ->on('datosPersonales')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
