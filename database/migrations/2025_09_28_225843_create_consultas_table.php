@@ -19,7 +19,11 @@ return new class extends Migration
             $table->foreignId('turnos_idTurnos')->constrained('turnos', 'idTurnos');
             $table->foreignId('diagnosticos_idDiagnosticos')->constrained('diagnosticos', 'idDiagnosticos');
             $table->foreignId('solicitudes_idSolicitudes')->constrained('solicitudes', 'idSolicitudes');
-            $table->foreignId('seguimientoTratamiento_idSeguimientoTratamiento')->constrained('seguimientoTratamientos', 'idSeguimientoTratamiento');
+            //$table->foreignId('seguimientoTratamiento_idSeguimientoTratamiento')->constrained('seguimientoTratamientos', 'idSeguimientoTratamiento');
+            $table->unsignedBigInteger('seguimientoTratamiento_idSeguimientoTratamiento')->nullable();
+            $table->foreign('seguimientoTratamiento_idSeguimientoTratamiento', 'fk_consulta_st')
+                ->references('idSeguimientoTratamiento')
+                ->on('seguimientoTratamiento');
             $table->foreignId('historialClinicos_idHistorialClinico')->constrained('historialClinicos', 'idHistorialClinico');
             $table->timestamps();
         });
