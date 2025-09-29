@@ -41,4 +41,8 @@ class TipoSolicitud extends Model
     ];
 
     // ENVIA A SOLICITUDES
+    public function solicitudes()
+    {
+        return $this->hasMany(Solicitud::class, 'tiposSolicitudes_idTiposSolicitudes', 'idSolicitudes');
+    }
 }

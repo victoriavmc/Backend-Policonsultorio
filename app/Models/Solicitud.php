@@ -50,4 +50,8 @@ class Solicitud extends Model
     }
 
     // RECIBE DE TIPOSSOLICITUDES
+    public function tiposSolicitudes()
+    {
+        return $this->belongsTo(TipoSolicitud::class, 'tiposSolicitudes_idTiposSolicitudes');
+    }
 }
