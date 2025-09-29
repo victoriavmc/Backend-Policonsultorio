@@ -21,7 +21,7 @@ class TipoSolicitud extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idtiposSolicitudes';
+    protected $primaryKey = 'idTiposSolicitudes';
 
     /**
      * Indicates if the model should be timestamped.
@@ -39,4 +39,6 @@ class TipoSolicitud extends Model
         'tipoSolicitud',
         'nombre',
     ];
+
+    // ENVIA A SOLICITUDES
 }

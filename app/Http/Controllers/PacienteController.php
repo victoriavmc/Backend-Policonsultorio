@@ -23,8 +23,8 @@ class PacienteController extends Controller
         $request->validate([
             'particular' => 'required|boolean',
             'numAfiliado' => 'nullable|string|max:45',
-            'datosPersonales_iddatosPersonales' => 'required|exists:datosPersonales,iddatosPersonales',
-            'obrasSociales_idobrasSociales' => 'required|exists:obrasSociales,idobrasSociales',
+            'datosPersonales_idDatosPersonales' => 'required|exists:datosPersonales,idDatosPersonales',
+            'obrasSociales_idObrasSociales' => 'required|exists:obrasSociales,idObrasSociales',
         ]);
 
         $paciente = Paciente::create($request->all());
@@ -48,8 +48,8 @@ class PacienteController extends Controller
         $request->validate([
             'particular' => 'boolean',
             'numAfiliado' => 'nullable|string|max:45',
-            'datosPersonales_iddatosPersonales' => 'exists:datosPersonales,iddatosPersonales',
-            'obrasSociales_idobrasSociales' => 'exists:obrasSociales,idobrasSociales',
+            'datosPersonales_idDatosPersonales' => 'exists:datosPersonales,idDatosPersonales',
+            'obrasSociales_idObrasSociales' => 'exists:obrasSociales,idObrasSociales',
         ]);
 
         $paciente->update($request->all());

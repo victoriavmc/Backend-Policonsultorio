@@ -13,6 +13,6 @@ class Noticia extends Model
 
     // Envia a AgrupacionNoticiasImagenes
     public function AgrupacionNoticiasImagen(){
-    //    return $this->hasMany(AgrupacionNoticiasImagen::class, 'noticias_idNoticias', 'idNoticias');
+       return $this->hasMany(AgrupacionNoticiaImagen::class, 'noticias_idNoticias', 'idNoticias');
     }
 }

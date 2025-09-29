@@ -30,7 +30,7 @@ class Imagen extends Model
      */
     public function agrupacionNoticiasImagen(): HasMany
     {
-        return $this->hasMany(AgrupacionNoticiasImagen::class, 'imagenes_idImagenes', 'idImagenes');
+        return $this->hasMany(AgrupacionNoticiaImagen::class, 'imagenes_idImagenes', 'idImagenes');
     }
 
     /**

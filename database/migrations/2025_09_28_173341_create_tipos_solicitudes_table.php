@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tiposSolicitudes', function (Blueprint $table) {
-            $table->id('idtiposSolicitudes');
+            $table->id('idTiposSolicitudes');
             $table->enum('tipoSolicitud', ['Laboratorio', 'Imágenes', 'Funcionales', 'Especializados', 'Procedimientos', 'Derivaciones', 'Tratamientos']);
             $table->string('nombre', 45);
         });

@@ -21,7 +21,7 @@ class RedSocial extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idredesSociales';
+    protected $primaryKey = 'idRedesSociales';
 
     /**
      * Indicates if the model should be timestamped.

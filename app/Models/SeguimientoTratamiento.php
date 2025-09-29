@@ -21,7 +21,7 @@ class SeguimientoTratamiento extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idseguimientoTratamiento';
+    protected $primaryKey = 'idSeguimientoTratamiento';
 
     /**
      * Indicates if the model should be timestamped.
@@ -46,6 +46,6 @@ class SeguimientoTratamiento extends Model
      */
     public function consultas()
     {
-        return $this->hasMany(Consulta::class, 'seguimientoTratamiento_idseguimientoTratamiento', 'idconsultas');
+        return $this->hasMany(Consulta::class, 'seguimientoTratamiento_idSeguimientoTratamiento', 'idConsultas');
     }
 }

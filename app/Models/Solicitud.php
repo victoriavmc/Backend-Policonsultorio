@@ -21,7 +21,7 @@ class Solicitud extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idsolicitudes';
+    protected $primaryKey = 'idSolicitudes';
 
     /**
      * Indicates if the model should be timestamped.
@@ -38,7 +38,7 @@ class Solicitud extends Model
     protected $fillable = [
         'descripcion',
         'fecha',
-        'tiposSolicitudes_idtiposSolicitudes',
+        'tiposSolicitudes_idTiposSolicitudes',
     ];
 
     /**
@@ -46,6 +46,8 @@ class Solicitud extends Model
      */
     public function consultas()
     {
-        return $this->hasMany(Consulta::class, 'solicitudes_idsolicitudes', 'idconsultas');
+        return $this->hasMany(Consulta::class, 'solicitudes_idSolicitudes', 'idConsultas');
     }
+
+    // RECIBE DE TIPOSSOLICITUDES
 }

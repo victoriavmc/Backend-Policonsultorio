@@ -21,7 +21,7 @@ class DatoPagina extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'iddatosPagina';
+    protected $primaryKey = 'idDatosPagina';
 
     /**
      * Indicates if the model should be timestamped.

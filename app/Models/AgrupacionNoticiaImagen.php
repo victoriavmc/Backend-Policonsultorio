@@ -21,7 +21,7 @@ class AgrupacionNoticiaImagen extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idagrupacionNoticiasImagenes';
+    protected $primaryKey = 'idAgrupacionNoticiasImagenes';
 
     /**
      * Indicates if the model should be timestamped.
@@ -36,17 +36,18 @@ class AgrupacionNoticiaImagen extends Model
      * @var array
      */
     protected $fillable = [
-        'noticias_idnoticias',
-        'imagenes_idimagenes',
+        'noticias_idNoticias',
+        'imagenes_idImagenes',
     ];
 
+    // RECIBE
     public function noticias()
     {
-        return $this->belongsTo(Noticia::class, 'noticias_idnoticias');
+        return $this->belongsTo(Noticia::class, 'noticias_idNoticias');
     }
 
     public function imagenes()
     {
-        return $this->belongsTo(Imagen::class, 'imagenes_idimagenes');
+        return $this->belongsTo(Imagen::class, 'imagenes_idImagenes');
     }
 }

@@ -21,7 +21,7 @@ class Paciente extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idpacientes';
+    protected $primaryKey = 'idPacientes';
 
     /**
      * Indicates if the model should be timestamped.
@@ -38,8 +38,8 @@ class Paciente extends Model
     protected $fillable = [
         'particular',
         'numAfiliado',
-        'datosPersonales_iddatosPersonales',
-        'obrasSociales_idobrasSociales',
+        'datosPersonales_idDatosPersonales',
+        'obrasSociales_idObrasSociales',
     ];
 
     /**
@@ -47,7 +47,7 @@ class Paciente extends Model
      */
     public function datosPersonale()
     {
-        return $this->belongsTo(DatoPersonal::class, 'datosPersonales_iddatosPersonales');
+        return $this->belongsTo(DatoPersonal::class, 'datosPersonales_idDatosPersonales');
     }
 
     /**
@@ -55,7 +55,7 @@ class Paciente extends Model
      */
     public function obraSocial()
     {
-        return $this->belongsTo(ObraSocial::class, 'obrasSociales_idobrasSociales');
+        return $this->belongsTo(ObraSocial::class, 'obrasSociales_idObrasSociales');
     }
 
     /**
@@ -63,6 +63,6 @@ class Paciente extends Model
      */
     public function turnos()
     {
-        return $this->hasMany(Turno::class, 'pacientes_idPacientes', 'idpacientes');
+        return $this->hasMany(Turno::class, 'pacientes_idPacientes', 'idPacientes');
     }
 }

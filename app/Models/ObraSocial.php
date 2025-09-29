@@ -21,7 +21,7 @@ class ObraSocial extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idobrasSociales';
+    protected $primaryKey = 'idObrasSociales';
 
     /**
      * Indicates if the model should be timestamped.

@@ -35,12 +35,12 @@ class Consulta extends Model
 
     public function solicitud()
     {
-        // return $this->belongsTo(Solicitud::class, 'solicitudes_idSolicitudes', 'idSolicitudes');
+        return $this->belongsTo(Solicitud::class, 'solicitudes_idSolicitudes', 'idSolicitudes');
     }
 
     public function seguimientoTratamiento()
     {
-        // return $this->belongsTo(SeguimientoTratamiento::class, 'seguimientoTratamiento_idSeguimientoTratamiento', 'idSeguimientoTratamiento');
+        return $this->belongsTo(SeguimientoTratamiento::class, 'seguimientoTratamiento_idSeguimientoTratamiento', 'idSeguimientoTratamiento');
     }
 
     public function historialClinico()
