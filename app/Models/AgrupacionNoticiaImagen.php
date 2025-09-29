@@ -39,4 +39,14 @@ class AgrupacionNoticiaImagen extends Model
         'noticias_idnoticias',
         'imagenes_idimagenes',
     ];
+
+    public function noticias()
+    {
+        return $this->belongsTo(Noticia::class, 'noticias_idnoticias');
+    }
+
+    public function imagenes()
+    {
+        return $this->belongsTo(Imagen::class, 'imagenes_idimagenes');
+    }
 }
