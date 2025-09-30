@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('vigencia');
             $table->text('codigoRecetaElectronica');
             $table->string('observacion', 255);
-            $table->unsignedBigInteger('indicaciones_idIndicaciones');
+            $table->foreignId('indicaciones_idIndicaciones')->constrained('indicaciones','idIndicaciones');
             $table->timestamps();
         });
     }

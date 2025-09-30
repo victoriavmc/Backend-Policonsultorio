@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('horarios', function (Blueprint $table) {
             $table->id('idHorarios');
-            $table->timestamps();
             $table->string('dia',45);
             $table->time('horaInicio');
             $table->time('horaFin');
             $table->enum('disponible',['Disponible','No Disponible']);
+            $table->timestamps();
         });
     }
 

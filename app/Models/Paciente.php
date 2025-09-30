@@ -47,7 +47,7 @@ class Paciente extends Model
      */
     public function datosPersonale()
     {
-        return $this->belongsTo(DatoPersonal::class, 'datosPersonales_idDatosPersonales');
+        return $this->belongsTo(DatoPersonal::class, 'datosPersonales_idDatosPersonales', 'idDatosPersonales');
     }
 
     /**
@@ -55,7 +55,7 @@ class Paciente extends Model
      */
     public function obraSocial()
     {
-        return $this->belongsTo(ObraSocial::class, 'obrasSociales_idObrasSociales');
+        return $this->belongsTo(ObraSocial::class, 'obrasSociales_idObrasSociales', 'idObrasSociales');
     }
 
     /**

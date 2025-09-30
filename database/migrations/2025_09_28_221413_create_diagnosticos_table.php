@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('contenidoFormulario',255)->nullable();
             $table->foreignId('observacionesIA_idObservacionesIA')->constrained('observacionesIA','idObservacionesIA');
             $table->foreignId('recetas_idRecetas')->constrained('recetas','idRecetas');
-            
+            $table->timestamps();
         });
     }
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('idObrasSociales');
             $table->string('nombre', 45);
             $table->enum('estado', ['Activo', 'Inactivo', 'Suspendido', 'ObraSocialInactiva']);
+            $table->timestamps();
         });
     }
 

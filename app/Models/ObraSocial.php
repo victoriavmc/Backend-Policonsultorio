@@ -48,4 +48,10 @@ class ObraSocial extends Model
     protected $casts = [
         'estado' => 'string',
     ];
+
+    // ENVIA A PACINETES
+    public function pacientes()
+    {
+        return $this->hasMany(Paciente::class, 'obrasSociales_idObrasSociales', 'idObrasSociales');
+    }
 }

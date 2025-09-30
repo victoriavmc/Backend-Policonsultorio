@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('observacionesIA', function (Blueprint $table) {
             $table->id('idObservacionesIA');
-            $table->timestamps();
             $table->foreignId('imagenesIA_idImagenesIA')->constrained('imagenesIA','idImagenesIA');
             $table->foreignId('imagenes_idImagenes')->constrained('imagenes','idImagenes');
+            $table->timestamps();
         });
     }
 

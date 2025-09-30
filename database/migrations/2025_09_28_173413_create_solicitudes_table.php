@@ -21,6 +21,7 @@ return new class extends Migration
                   ->references('idTiposSolicitudes')->on('tiposSolicitudes')
                   ->onDelete('no action')
                   ->onUpdate('no action');
+            $table->timestamps();
         });
     }
 

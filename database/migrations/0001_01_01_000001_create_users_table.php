@@ -25,7 +25,7 @@ return new class extends Migration
 
             $table->string('rol', 45);
             $table->string('estado', 55);
-            $table->unsignedBigInteger('datosPersonales_idDatosPersonales')->nullable();
+            $table->foreignId('datosPersonales_idDatosPersonales')->constrained('datosPersonales','idDatosPersonales');
             $table->rememberToken();
             
             $table->timestamps();

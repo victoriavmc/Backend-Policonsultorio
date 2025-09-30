@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('fechaInicio');
             $table->date('fechaFin')->nullable();
             $table->string('descripcion', 255)->nullable();
+            $table->timestamps();
         });
     }
 
