@@ -15,12 +15,7 @@ return new class extends Migration
             $table->id('idPacientes');
             $table->boolean('particular');
             $table->string('numAfiliado', 45)->nullable();
-            $table->unsignedBigInteger('datosPersonales_idDatosPersonales'); 
-
-            $table->foreign('datosPersonales_idDatosPersonales', 'fk_pacientes_datosPersonales1')
-                  ->references('idDatosPersonales')->on('datosPersonales')
-                  ->onDelete('no action')
-                  ->onUpdate('no action');
+            $table->foreignId('datosPersonales_idDatosPersonales')->constrained('datosPersonales','idDatosPersonales');
 
             
             $table->foreignId('obrasSociales_idObrasSociales')

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('valorNuevo', 255)->nullable();
             $table->date('fecha');
             $table->integer('idReferente')->nullable();
-            $table->unsignedBigInteger('usuarios_idUsuarios');
+            $table->foreignId('usuarios_idUsuarios')->constrained('usuarios','idUsuarios');
 
             $table->timestamps();
         });

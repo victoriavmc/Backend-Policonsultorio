@@ -176,4 +176,8 @@ class User extends Authenticatable
     public function medicos(){
         return $this->hasMany(Medico::class, 'usuarios_idUsuarios', 'idUsuarios');
     }
+
+    public function auditoria(){
+        return $this->hasMany(Auditoria::class, 'usuarios_idUsuarios', 'idUsuarios');
+    }
 }
