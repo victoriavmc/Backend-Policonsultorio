@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('recetas', function (Blueprint $table) {
             $table->id('idRecetas');
-            $table->string('nombreMedicamento', 45);
+            $table->string('nombreMedicamento', 255);
             $table->string('presentacion', 45);
-            $table->string('concentracion', 45);
+            $table->string('concentracion', 45)->nullable();
             $table->string('cantidad', 45);
             $table->date('fecha');
             $table->date('vigencia');
-            $table->text('codigoRecetaElectronica');
-            $table->string('observacion', 255);
+            $table->text('codigoRecetaElectronica')->nullable();
+            $table->string('observacion', 255)->nullable();
             $table->foreignId('indicaciones_idIndicaciones')->constrained('indicaciones','idIndicaciones');
             $table->timestamps();
         });

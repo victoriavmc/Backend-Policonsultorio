@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('estado',['activo','finalizado']);
             $table->date('fecha');
             $table->string('modoPago',45);
-            $table->string('obsevarcion',45)->nullable();
+            $table->string('obsevarcion',255)->nullable();
             $table->float('montoParcial')->nullable();
             $table->float('montoFinal');
             $table->timestamps();
