@@ -9,7 +9,7 @@ class Horario extends Model
     //
     protected $table='horarios';
     protected $primaryKey='idHorarios';
-    protected $fillable = ['dia','horaInicio','horaFin','estado'];
+    protected $fillable = ['dia','horaInicio','horaFin','disponible'];
 
     // Envia a HorariosMedicos
     public function HorariosMedico(){

@@ -6,6 +6,7 @@ use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\IndicacionController;
 use App\Http\Controllers\RecetaController;
 use App\Http\Controllers\FormularioPDFController;
+use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\ObraSocialController;
 use App\Http\Controllers\PacienteController;
 use Illuminate\Support\Facades\Route;
@@ -32,3 +33,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('pacientes', PacienteController::class);
     Route::resource('formularios-pdfs', FormularioPDFController::class);
 });
+
+//Horarios
+Route::apiResource('horarios', HorarioController::class);
