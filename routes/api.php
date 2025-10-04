@@ -13,6 +13,7 @@ use App\Http\Controllers\ObraSocialController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\SeguimientosPagoController;
 use App\Http\Controllers\TratamientoController;
+use App\Http\Controllers\TurnoController;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes
@@ -52,3 +53,6 @@ Route::apiResource('seguimientosPagos', SeguimientosPagoController::class);
 
 // Tratamientos
 Route::apiResource('tratamientos', TratamientoController::class);
+
+// Turnos 
+Route::apiResource('turnos', TurnoController::class);
