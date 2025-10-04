@@ -11,6 +11,42 @@ class HorarioController
 {
     use ApiResponse;
 
+    // Formateo para que los dias puedan ingresar en minuscula y luego quede Asi. (tambien si se encuentra disponible o no)
+    private function formatString(?string $pTexto, $dato=false):?string
+    {
+        if (!$pTexto) return null;
+        if($dato){
+            // Convierte a minúsculas, quita espacios, y capitaliza cada palabra
+            return implode(' ', array_map('ucfirst', explode(' ', strtolower(trim($pTexto)))));
+        }
+        return ucfirst(strtolower(trim($pTexto)));
+    }
+
+    private function validaciones($request, $isUpdate=false){
+        $data=$request->all();
+
+
+        // Pongo en mayuscula minuscula los textos.
+        if(isset($data['dia'])){
+            $data['dia']= $this->formatString( $data['dia']);
+        }
+
+        // Pongo en mayuscula minuscula los textos.
+        if(isset($data['disponible'])){
+            $data['disponible']= $this->formatString( $data['disponible'], true);
+        }
+
+        // Defino las reglas con iternario
+        $reglas = [
+            'dia'=> ($isUpdate ? 'nullable' : 'required'). '|string|max:45|in:Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo',
+            'horaInicio'=>($isUpdate ? 'nullable' : 'required').'|date_format:H:i',
+            'horaFin'=>($isUpdate ? 'nullable' : 'required').'|date_format:H:i',
+            'disponible'=> ($isUpdate ? 'nullable' : 'required'). '|in:Disponible,No Disponible',
+        ];
+
+        return Validator::make($data, $reglas);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -32,12 +68,7 @@ class HorarioController
     public function store(Request $request)
     {
         // Agregar Horario
-        $validator=Validator::make($request->all(),[
-            'dia'=>'required|string|max:45|in:Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo',
-            'horaInicio'=>'required|date_format:H:i',
-            'horaFin'=>'required|date_format:H:i|after:horaInicio',
-            'disponible'=>'required|in:Disponible,No Disponible',
-        ]);
+        $validator = $this->validaciones($request);
 
         if($validator->fails()){
             return $this->validationErrorResponse('Error de Validacion', $validator->errors());
@@ -71,12 +102,7 @@ class HorarioController
         }
 
         // Modificar Horario
-        $validator=Validator::make($request->all(),[
-            'dia'=>'nullable|string|max:45|in:Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo',
-            'horaInicio'=>'nullable|date_format:H:i',
-            'horaFin'=>'nullable|date_format:H:i|after:horaInicio',
-            'disponible'=>'nullable|in:Disponible,No Disponible',
-        ]);
+        $validator = $this->validaciones($request, true);
         
         if($validator->fails()){
             return $this->validationErrorResponse('Error de Validacion', $validator->errors());
