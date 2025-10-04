@@ -171,14 +171,21 @@ class TurnoController extends Controller
      */
     public function destroy(Turno $turno)
     {
-        //
         if (!$turno) {
             return $this->notFoundResponse('Turno no encontrado');
         }
 
-        $turno->delete();
+        // Si ya está cancelado, evitamos repetir acción
+        if ($turno->estado === 'Cancelado') {
+            return $this->errorResponse('El turno ya se encuentra cancelado.', 400);
+        }
 
-        return $this->successResponse('Turno eliminado correctamente', null, 200);
+        // Cambiar el estado a Cancelado
+        $turno->estado = 'Cancelado';
+        $turno->save();
+
+        return $this->successResponse('El turno fue cancelado correctamente.', $turno, 200);
     }
+
     
 }
