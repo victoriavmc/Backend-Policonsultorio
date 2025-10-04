@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuditoriasController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\DatoPersonalController;
 use App\Http\Controllers\DiagnosticosController;
 use App\Http\Controllers\ImagenController;
@@ -76,3 +77,6 @@ Route::apiResource('historialClinico', HistorialClinicoController::class);
 
 // Noticias
 Route::apiResource('noticia', NoticiaController::class);
+
+// Consultas
+Route::apiResource('consultas', ConsultaController::class);
