@@ -7,8 +7,11 @@ use App\Http\Controllers\IndicacionController;
 use App\Http\Controllers\RecetaController;
 use App\Http\Controllers\FormularioPDFController;
 use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\HorariosMedicoController;
+use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\ObraSocialController;
 use App\Http\Controllers\PacienteController;
+use App\Models\HorariosMedico;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes
@@ -34,5 +37,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('formularios-pdfs', FormularioPDFController::class);
 });
 
-//Horarios
+// Horarios
 Route::apiResource('horarios', HorarioController::class);
+
+// Medicos
+Route::apiResource('medicos', MedicoController::class);
+
+// HorariosMedicos
+Route::apiResource('horariosMedicos', HorariosMedicoController::class);

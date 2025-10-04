@@ -12,7 +12,7 @@ class HorariosMedico extends Model
     protected $fillable = ['disponible','medicos_idMedicos', 'horarios_idHorarios'];
 
     // Recibe de Medicos y Usuarios
-    public function medicos(){
+    public function medico(){
         return $this->belongsTo(Medico::class, 'medicos_idMedicos', 'idMedicos');
     }
 

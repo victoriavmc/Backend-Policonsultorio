@@ -37,6 +37,7 @@ class User extends Authenticatable
         'pinOlvido_attempts', // intentos fallidos de Pin
         'pin_blocked_until', // tiempo de bloqueo de la solicitud del pin
         'datosPersonales_idDatosPersonales',
+        'estado', // FALTAN ATRIBUTOS
 
     ];
 
