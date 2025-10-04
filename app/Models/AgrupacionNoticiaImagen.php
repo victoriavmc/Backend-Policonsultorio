@@ -41,12 +41,12 @@ class AgrupacionNoticiaImagen extends Model
     ];
 
     // RECIBE
-    public function noticias()
+    public function noticia()
     {
         return $this->belongsTo(Noticia::class, 'noticias_idNoticias', 'idNoticias');
     }
 
-    public function imagenes()
+    public function imagen()
     {
         return $this->belongsTo(Imagen::class, 'imagenes_idImagenes', 'idImagenes');
     }
