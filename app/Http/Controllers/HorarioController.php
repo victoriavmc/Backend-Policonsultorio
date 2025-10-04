@@ -40,7 +40,7 @@ class HorarioController
         $reglas = [
             'dia'=> ($isUpdate ? 'nullable' : 'required'). '|string|max:45|in:Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo',
             'horaInicio'=>($isUpdate ? 'nullable' : 'required').'|date_format:H:i',
-            'horaFin'=>($isUpdate ? 'nullable' : 'required').'|date_format:H:i',
+            'horaFin'=>($isUpdate ? 'nullable' : 'required').'|date_format:H:i|after:horaInicio',
             'disponible'=> ($isUpdate ? 'nullable' : 'required'). '|in:Disponible,No Disponible',
         ];
 
