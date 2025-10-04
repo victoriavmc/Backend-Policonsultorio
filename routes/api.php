@@ -12,6 +12,7 @@ use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\ObraSocialController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\SeguimientosPagoController;
+use App\Http\Controllers\TratamientoController;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes
@@ -48,3 +49,6 @@ Route::apiResource('horariosMedicos', HorariosMedicoController::class);
 
 // Seguimiento Pago
 Route::apiResource('seguimientosPagos', SeguimientosPagoController::class);
+
+// Tratamientos
+Route::apiResource('tratamientos', TratamientoController::class);
