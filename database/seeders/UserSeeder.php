@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DatoPersonal;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -13,11 +14,24 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $datoPersonal = DatoPersonal::create([
+            'nombre' => 'Admin',
+            'apellido' => 'User',
+            'documento' => '12345678',
+            'tipoDocumento' => 'DNI',
+            'genero' => 'Otro',
+            'celular' => '1234567890',
+            'fechaNacimiento' => '1990-01-01',
+        ]);
+
         User::create([
             'email' => 'test@example.com',
             'password' => Hash::make('1234'),
             'rol' => 1,
             'estado' => 1,
+            'datosPersonales_idDatosPersonales' => $datoPersonal->idDatosPersonales
         ]);
+
+        
     }
 }

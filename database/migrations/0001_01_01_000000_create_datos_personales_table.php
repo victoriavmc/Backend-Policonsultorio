@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('nombre', 55);
             $table->string('apellido', 55);
             $table->string('documento', 55);
-            $table->string('tipoDocumento', 55);
-            $table->string('genero', 55);
+            $table->enum('tipoDocumento', ['DNI', 'Pasaporte', 'Otro']);
+            $table->enum('genero', ['Masculino', 'Femenino', 'Otro']);
             $table->date('fechaNacimiento');
             $table->string('celular', 55);
             $table->enum('estado', ['Activo', 'Inactivo'])->default('Activo');

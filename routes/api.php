@@ -34,7 +34,9 @@ Route::post('/verify-pin', [AuthController::class, 'verifyPin']);
 // Ruta para restablecer contraseña con el pin
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-
+Route::apiResource('datos-personales', DatoPersonalController::class)
+    ->parameters(['datos-personales' => 'id']);
+Route::apiResource('usuarios', UserController::class)->except(['store', 'destroy', 'update']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('auditorias', AuditoriasController::class);
     Route::apiResource('indicaciones', IndicacionController::class);
@@ -43,8 +45,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('obras-sociales', ObraSocialController::class);
     Route::apiResource('pacientes', PacienteController::class);
     Route::apiResource('formularios-pdfs', FormularioPDFController::class);
-    Route::apiResource('datos-personales', DatoPersonalController::class);
-    Route::apiResource('usuarios', UserController::class)->except(['store', 'destroy', 'update']);
 });
 
 // Horarios

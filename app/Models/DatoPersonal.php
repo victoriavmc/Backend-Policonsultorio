@@ -28,7 +28,7 @@ class DatoPersonal extends Model
         'apellido',
         'documento',
         'tipoDocumento',
-        'telefono',
+        'celular',
         'direccion',
         'fechaNacimiento',
         'genero',

@@ -16,15 +16,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::all();
+        $users = User::select([
+            'idUsuarios',
+            'email',
+            'rol',
+            'estado',
+            'datosPersonales_idDatosPersonales'
+        ])
+        ->with('datosPersonales')
+        ->get();
 
-        return response()->json([
-            'message' => 'Usuarios obtenidos exitosamente',
-            'data' => [
-                'user' => $user,
-                'datosPersonales' => $user->datosPersonales
-            ],
-            'status' => 'success'
+        return $this->successResponse('Usuarios obtenidos exitosamente', [
+            'usuarios' => $users,
         ]);
     }
 
@@ -34,16 +37,16 @@ class UserController extends Controller
     public function show(string $id)
     {
         try {
-            $user = User::with('datosPersonales')->findOrFail($id);
+            $user = User::select([
+            'idUsuarios',
+            'email',
+            'rol',
+            'estado',
+            'datosPersonales_idDatosPersonales'
+        ])
+        ->with('datosPersonales')->findOrFail($id);
 
-            return response()->json([
-                'message' => 'Usuario obtenido exitosamente',
-                'data' => [
-                    'user' => $user,
-                    'datosPersonales' => $user->datosPersonales
-                ],
-                'status' => 'success'
-            ]);
+            return $this->successResponse('Usuario obtenido exitosamente', $user);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return $this->notFoundResponse('Usuario no encontrado');
         } catch (\Exception $e) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\DatoPersonalRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -24,17 +24,13 @@ class CreateDatoPersonalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:55',
-            'apellido' => 'required|string|max:55',
+            'nombre' => 'required|string|max:55|min:3',
+            'apellido' => 'required|string|max:55|min:3',
             'documento' => 'required|string|max:55|unique:datosPersonales,documento',
-            'tipoDocumento' => 'required|string|max:55',
-            'genero' => 'required|string|max:55',
+            'tipoDocumento' => 'required|string|max:55|in:DNI,Pasaporte,Otro',
+            'genero' => 'required|string|max:55|in:Masculino,Femenino,Otro',
             'fechaNacimiento' => 'required|date|before:today|after:1900-01-01',
-            'celular' => [
-                'required',
-                'string',
-                'max:55',
-            ],
+            'celular' => 'required|string|max:55',
             'estado' => 'nullable|string|in:Activo,Inactivo'
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\DatoPersonalRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -24,7 +24,7 @@ class UpdateDatoPersonalRequest extends FormRequest
      */
     public function rules(): array
     {
-        $idDatosPersonales = $this->route('dato_personal');
+        $idDatosPersonales = $this->route('id');
 
         return [
             'nombre' => 'sometimes|string|max:55',

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateDatoPersonalRequest;
-use App\Http\Requests\UpdateDatoPersonalRequest;
+use App\Http\Requests\DatoPersonalRequest\CreateDatoPersonalRequest;
+use App\Http\Requests\DatoPersonalRequest\UpdateDatoPersonalRequest;
 use App\Services\DatoPersonalService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -99,11 +99,11 @@ class DatoPersonalController extends Controller
 
             $datoPersonal = $this->datoPersonalService->getDatoPersonal((int)$id);
 
-            $this->datoPersonalService->updateDatoPersonal($datoPersonal, $request->validated());
+            $datoPersonalActualizado = $this->datoPersonalService->updateDatoPersonal($datoPersonal, $request->validated());
 
             DB::commit();
 
-            return $this->successResponse('Dato personal actualizado exitosamente', $datoPersonal);
+            return $this->successResponse('Dato personal actualizado exitosamente', $datoPersonalActualizado);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
             return $this->notFoundResponse('Dato personal no encontrado');

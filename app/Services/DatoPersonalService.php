@@ -38,7 +38,8 @@ class DatoPersonalService
      */
     public function updateDatoPersonal(DatoPersonal $datoPersonal, array $data)
     {
-        return $datoPersonal->update($data);
+        $datoPersonal->update($data);
+        return $datoPersonal->fresh();
     }
 
     /**
