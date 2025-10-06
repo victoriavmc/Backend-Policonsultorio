@@ -12,21 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pacientes', function (Blueprint $table) {
-            $table->id('idpacientes');
-            $table->tinyInteger('particular');
+            $table->id('idPacientes');
+            $table->boolean('particular');
             $table->string('numAfiliado', 45)->nullable();
-            $table->unsignedBigInteger('datosPersonales_iddatosPersonales');
-            $table->unsignedBigInteger('obrasSociales_idobrasSociales');
+            $table->foreignId('datosPersonales_idDatosPersonales')->constrained('datosPersonales','idDatosPersonales');
 
-            $table->foreign('datosPersonales_iddatosPersonales', 'fk_pacientes_datosPersonales1')
-                  ->references('idDatosPersonales')->on('datos_personales')
-                  ->onDelete('no action')
-                  ->onUpdate('no action');
-
-            $table->foreign('obrasSociales_idobrasSociales', 'fk_pacientes_obrasSociales1')
-                  ->references('idobrasSociales')->on('obrasSociales')
-                  ->onDelete('no action')
-                  ->onUpdate('no action');
+            
+            $table->foreignId('obrasSociales_idObrasSociales')
+            ->nullable()
+            ->constrained('obrasSociales', 'idObrasSociales');
+            $table->timestamps();
         });
     }
 

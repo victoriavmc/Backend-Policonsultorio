@@ -21,7 +21,7 @@ class FormularioPDF extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idformulariosPDFs';
+    protected $primaryKey = 'idFormulariosPDFs';
 
     /**
      * Indicates if the model should be timestamped.

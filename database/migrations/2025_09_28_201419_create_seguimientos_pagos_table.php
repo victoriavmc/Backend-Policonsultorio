@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('seguimientosPagos', function (Blueprint $table) {
             $table->id('idSeguimientosPagos');
-            $table->enum('estado',['activo','finalizado']);
+            $table->enum('estado',['Pendiente','Finalizado']);
             $table->date('fecha');
             $table->string('modoPago',45);
-            $table->string('obsevarcion',45)->nullable();
+            $table->string('observacion',255)->nullable();
             $table->float('montoParcial')->nullable();
             $table->float('montoFinal');
             $table->timestamps();

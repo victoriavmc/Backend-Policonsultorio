@@ -37,6 +37,7 @@ class User extends Authenticatable
         'pinOlvido_attempts', // intentos fallidos de Pin
         'pin_blocked_until', // tiempo de bloqueo de la solicitud del pin
         'datosPersonales_idDatosPersonales',
+        'estado', // FALTAN ATRIBUTOS
 
     ];
 
@@ -175,5 +176,9 @@ class User extends Authenticatable
     // TODAS LAS CONEXIONES Quien recibe y quien va
     public function medicos(){
         return $this->hasMany(Medico::class, 'usuarios_idUsuarios', 'idUsuarios');
+    }
+
+    public function auditoria(){
+        return $this->hasMany(Auditoria::class, 'usuarios_idUsuarios', 'idUsuarios');
     }
 }

@@ -40,4 +40,9 @@ class Turno extends Model
     public function seguimientoPago() {
         return $this->belongsTo(SeguimientosPago::class, 'seguimientosPagos_idSeguimientosPagos', 'idSeguimientosPagos');
     }
+
+    //Envia a consultas
+    public function consultas() {
+        return $this->hasMany(Consulta::class, 'consultas_idConsultas', 'idConsultas');
+    }
 }

@@ -21,7 +21,7 @@ class ObraSocial extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'idobrasSociales';
+    protected $primaryKey = 'idObrasSociales';
 
     /**
      * Indicates if the model should be timestamped.
@@ -48,4 +48,10 @@ class ObraSocial extends Model
     protected $casts = [
         'estado' => 'string',
     ];
+
+    // ENVIA A PACINETES
+    public function pacientes()
+    {
+        return $this->hasMany(Paciente::class, 'obrasSociales_idObrasSociales', 'idObrasSociales');
+    }
 }
