@@ -70,8 +70,6 @@ class AuditoriasController extends Controller
 
             return $this->successResponse('Auditoría encontrada', $auditoria);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::warning('Auditoría no encontrada', ['id' => $id]);
-
             return $this->notFoundResponse('Auditoría no encontrada');
         } catch (\Exception $e) {
             Log::error('Error al obtener auditoría', [
@@ -99,8 +97,6 @@ class AuditoriasController extends Controller
             return $this->successResponse('Auditoría actualizada exitosamente', $auditoria->fresh());
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
-
-            Log::warning('Auditoría no encontrada para actualizar', ['id' => $id]);
 
             return $this->notFoundResponse('Auditoría no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {
@@ -142,8 +138,6 @@ class AuditoriasController extends Controller
             return $this->successResponse('Auditoría eliminada exitosamente');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
-
-            Log::warning('Auditoría no encontrada para eliminar', ['id' => $id]);
 
             return $this->notFoundResponse('Auditoría no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {

@@ -143,7 +143,6 @@ class ImagenController extends Controller
                 'updated_at' => $imagen->updated_at
             ]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::warning('Imagen no encontrada', ['id' => $id]);
             return $this->notFoundResponse('Imagen no encontrada');
         } catch (\Exception $e) {
             Log::error('Error al obtener imagen', [
@@ -217,8 +216,6 @@ class ImagenController extends Controller
             return $this->successResponse('Imagen eliminada exitosamente');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
-
-            Log::warning('Imagen no encontrada para eliminar', ['id' => $id]);
             
             return $this->notFoundResponse('Imagen no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {

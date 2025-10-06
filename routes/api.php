@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\AuditoriasController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DatoPersonalController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\IndicacionController;
 use App\Http\Controllers\RecetaController;
 use App\Http\Controllers\FormularioPDFController;
 use App\Http\Controllers\ObraSocialController;
 use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes
@@ -22,13 +24,16 @@ Route::post('/verify-pin', [AuthController::class, 'verifyPin']);
 
 // Ruta para restablecer contraseña con el pin
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
-Route::apiResource('imagenes', ImagenController::class);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('auditorias', AuditoriasController::class);
     Route::apiResource('indicaciones', IndicacionController::class);
     Route::apiResource('recetas', RecetaController::class);
-    Route::resource('obras-sociales', ObraSocialController::class);
-    Route::resource('pacientes', PacienteController::class);
-    Route::resource('formularios-pdfs', FormularioPDFController::class);
+    Route::apiResource('imagenes', ImagenController::class);
+    Route::apiResource('obras-sociales', ObraSocialController::class);
+    Route::apiResource('pacientes', PacienteController::class);
+    Route::apiResource('formularios-pdfs', FormularioPDFController::class);
+    Route::apiResource('datos-personales', DatoPersonalController::class);
+    Route::apiResource('usuarios', UserController::class)->except(['store', 'destroy', 'update']);
 });

@@ -70,8 +70,6 @@ class RecetaController extends Controller
 
             return $this->successResponse('Receta encontrada', $receta);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::warning('Receta no encontrada', ['id' => $id]);
-
             return $this->notFoundResponse('Receta no encontrada');
         } catch (\Exception $e) {
             Log::error('Error al obtener receta', [
@@ -99,8 +97,6 @@ class RecetaController extends Controller
             return $this->successResponse('Receta actualizada exitosamente', $receta->fresh());
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
-
-            Log::warning('Receta no encontrada para actualizar', ['id' => $id]);
 
             return $this->notFoundResponse('Receta no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {
@@ -142,8 +138,6 @@ class RecetaController extends Controller
             return $this->successResponse('Receta eliminada exitosamente');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
-
-            Log::warning('Receta no encontrada para eliminar', ['id' => $id]);
 
             return $this->notFoundResponse('Receta no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {

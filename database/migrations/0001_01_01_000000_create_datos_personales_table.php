@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('genero', 55);
             $table->date('fechaNacimiento');
             $table->string('celular', 55);
-            $table->string('estado', 55);
+            $table->enum('estado', ['Activo', 'Inactivo'])->default('Activo');
             $table->timestamps();
         });
     }

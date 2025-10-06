@@ -79,8 +79,6 @@ class IndicacionController extends Controller
 
             return $this->successResponse('Indicación encontrada', $indicacion);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::warning('Indicación no encontrada', ['id' => $id]);
-
             return $this->notFoundResponse('Indicación no encontrada');
         } catch (\Exception $e) {
             Log::error('Error al obtener indicación', [
@@ -108,8 +106,6 @@ class IndicacionController extends Controller
             return $this->successResponse('Indicación actualizada exitosamente', $indicacion->fresh());
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
-
-            Log::warning('Indicación no encontrada para actualizar', ['id' => $id]);
 
             return $this->notFoundResponse('Indicación no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {
@@ -151,8 +147,6 @@ class IndicacionController extends Controller
             return $this->successResponse('Indicación eliminada exitosamente');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollBack();
-
-            Log::warning('Indicación no encontrada para eliminar', ['id' => $id]);
 
             return $this->notFoundResponse('Indicación no encontrada');
         } catch (\Illuminate\Database\QueryException $e) {
