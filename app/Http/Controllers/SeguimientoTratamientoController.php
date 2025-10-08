@@ -42,13 +42,22 @@ class SeguimientoTratamientoController extends Controller
         return $this->createdResponse('Seguimiento de tratamiento creado con éxito', $seguimiento);
     }
 
-    public function show(SeguimientoTratamiento $seguimientoTratamiento)
+    public function show($id)
     {
+        $seguimientoTratamiento = SeguimientoTratamiento::find($id);
+        if (!$seguimientoTratamiento) {
+            return $this->notFoundResponse('Seguimiento de tratamiento no encontrado');
+        }
         return $this->successResponse('Seguimiento de tratamiento encontrado', $seguimientoTratamiento);
     }
 
-    public function update(Request $request, SeguimientoTratamiento $seguimientoTratamiento)
+    public function update(Request $request, $id)
     {
+        $seguimientoTratamiento = SeguimientoTratamiento::find($id);
+        if (!$seguimientoTratamiento) {
+            return $this->notFoundResponse('Seguimiento de tratamiento no encontrado');
+        }
+
         $validator = $this->validaciones($request, true);
         if ($validator->fails()) {
             return $this->validationErrorResponse('Error de validación', $validator->errors());
@@ -58,8 +67,13 @@ class SeguimientoTratamientoController extends Controller
         return $this->successResponse('Seguimiento de tratamiento actualizado correctamente', $seguimientoTratamiento);
     }
 
-    public function destroy(SeguimientoTratamiento $seguimientoTratamiento)
+    public function destroy($id)
     {
+        $seguimientoTratamiento = SeguimientoTratamiento::find($id);
+        if (!$seguimientoTratamiento) {
+            return $this->notFoundResponse('Seguimiento de tratamiento no encontrado');
+        }
+
         $seguimientoTratamiento->delete();
         return $this->successResponse('Seguimiento de tratamiento eliminado correctamente');
     }

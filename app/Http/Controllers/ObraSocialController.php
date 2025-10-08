@@ -51,13 +51,22 @@ class ObraSocialController extends Controller
         return $this->createdResponse('Obra social creada con éxito', $obraSocial);
     }
 
-    public function show(ObraSocial $obraSocial)
+    public function show($id)
     {
+        $obraSocial = ObraSocial::find($id);
+        if (!$obraSocial) {
+            return $this->notFoundResponse('Obra social no encontrada');
+        }
         return $this->successResponse('Obra social encontrada', $obraSocial);
     }
 
-    public function update(Request $request, ObraSocial $obraSocial)
+    public function update(Request $request, $id)
     {
+        $obraSocial = ObraSocial::find($id);
+        if (!$obraSocial) {
+            return $this->notFoundResponse('Obra social no encontrada');
+        }
+
         $validator = $this->validaciones($request, true, $obraSocial->idObrasSociales);
         if ($validator->fails()) {
             return $this->validationErrorResponse('Error de validación', $validator->errors());
@@ -67,8 +76,13 @@ class ObraSocialController extends Controller
         return $this->successResponse('Obra social actualizada correctamente', $obraSocial);
     }
 
-    public function destroy(ObraSocial $obraSocial)
+    public function destroy($id)
     {
+        $obraSocial = ObraSocial::find($id);
+        if (!$obraSocial) {
+            return $this->notFoundResponse('Obra social no encontrada');
+        }
+
         $obraSocial->update(['estado' => 'Inactivo']);
         return $this->successResponse('Obra social desactivada correctamente');
     }

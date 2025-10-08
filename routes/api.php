@@ -21,6 +21,9 @@ use App\Http\Controllers\SeguimientosPagoController;
 use App\Http\Controllers\TratamientoController;
 use App\Http\Controllers\TurnoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SolicitudesController;
+use App\Http\Controllers\SeguimientoTratamientoController;
+use App\Http\Controllers\TiposSolicitudesController;
 
 // Auth routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -45,6 +48,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('imagenes', ImagenController::class);
     
 });
+// Solicitudes
+Route::apiResource('solicitudes', SolicitudesController::class);
+// Tipos Solicitudes
+Route::apiResource('tipos-solicitudes', TiposSolicitudesController::class);
+// Seguimiento Tratamiento
+Route::apiResource('seguimientos-tratamientos', SeguimientoTratamientoController::class);
+
 // Obras Sociales
 Route::apiResource('obras-sociales', ObraSocialController::class);
 // Pacientes

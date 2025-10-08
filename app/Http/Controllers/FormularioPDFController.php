@@ -42,13 +42,22 @@ class FormularioPDFController extends Controller
         return $this->createdResponse('Formulario PDF creado con éxito', $formularioPDF);
     }
 
-    public function show(FormularioPDF $formularioPDF)
+    public function show($id)
     {
+        $formularioPDF = FormularioPDF::find($id);
+        if (!$formularioPDF) {
+            return $this->notFoundResponse('Formulario PDF no encontrado');
+        }
         return $this->successResponse('Formulario PDF encontrado', $formularioPDF);
     }
 
-    public function update(Request $request, FormularioPDF $formularioPDF)
+    public function update(Request $request, $id)
     {
+        $formularioPDF = FormularioPDF::find($id);
+        if (!$formularioPDF) {
+            return $this->notFoundResponse('Formulario PDF no encontrado');
+        }
+
         $validator = $this->validaciones($request, true);
         if ($validator->fails()) {
             return $this->validationErrorResponse('Error de validación', $validator->errors());
@@ -58,8 +67,13 @@ class FormularioPDFController extends Controller
         return $this->successResponse('Formulario PDF actualizado correctamente', $formularioPDF);
     }
 
-    public function destroy(FormularioPDF $formularioPDF)
+    public function destroy($id)
     {
+        $formularioPDF = FormularioPDF::find($id);
+        if (!$formularioPDF) {
+            return $this->notFoundResponse('Formulario PDF no encontrado');
+        }
+
         $formularioPDF->delete();
         return $this->successResponse('Formulario PDF eliminado correctamente');
     }

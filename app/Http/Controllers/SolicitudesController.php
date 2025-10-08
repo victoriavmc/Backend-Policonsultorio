@@ -46,25 +46,39 @@ class SolicitudesController extends Controller
         return $this->createdResponse('Solicitud creada con éxito', $solicitud->load('tiposSolicitudes'));
     }
 
-    public function show(Solicitud $solicitude)
+    public function show($id)
     {
-        return $this->successResponse('Solicitud encontrada', $solicitude->load('tiposSolicitudes'));
+        $solicitud = Solicitud::with('tiposSolicitudes')->find($id);
+        if (!$solicitud) {
+            return $this->notFoundResponse('Solicitud no encontrada');
+        }
+        return $this->successResponse('Solicitud encontrada', $solicitud);
     }
 
-    public function update(Request $request, Solicitud $solicitude)
+    public function update(Request $request, $id)
     {
-        $validator = $this->validaciones($request, true, $solicitude->idSolicitudes);
+        $solicitud = Solicitud::find($id);
+        if (!$solicitud) {
+            return $this->notFoundResponse('Solicitud no encontrada');
+        }
+
+        $validator = $this->validaciones($request, true, $solicitud->idSolicitudes);
         if ($validator->fails()) {
             return $this->validationErrorResponse('Error de validación', $validator->errors());
         }
 
-        $solicitude->update($validator->validated());
-        return $this->successResponse('Solicitud actualizada correctamente', $solicitude->load('tiposSolicitudes'));
+        $solicitud->update($validator->validated());
+        return $this->successResponse('Solicitud actualizada correctamente', $solicitud->load('tiposSolicitudes'));
     }
 
-    public function destroy(Solicitud $solicitude)
+    public function destroy($id)
     {
-        $solicitude->delete();
+        $solicitud = Solicitud::find($id);
+        if (!$solicitud) {
+            return $this->notFoundResponse('Solicitud no encontrada');
+        }
+
+        $solicitud->delete();
         return $this->successResponse('Solicitud eliminada correctamente');
     }
 }

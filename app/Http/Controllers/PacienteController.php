@@ -55,13 +55,22 @@ class PacienteController extends Controller
         return $this->createdResponse('Paciente creado con éxito', $paciente->load(['datosPersonales', 'obraSocial']));
     }
 
-    public function show(Paciente $paciente)
+    public function show($id)
     {
-        return $this->successResponse('Paciente encontrado', $paciente->load(['datosPersonales', 'obraSocial']));
+        $paciente = Paciente::with(['datosPersonales', 'obraSocial'])->find($id);
+        if (!$paciente) {
+            return $this->notFoundResponse('Paciente no encontrado');
+        }
+        return $this->successResponse('Paciente encontrado', $paciente);
     }
 
-    public function update(Request $request, Paciente $paciente)
+    public function update(Request $request, $id)
     {
+        $paciente = Paciente::find($id);
+        if (!$paciente) {
+            return $this->notFoundResponse('Paciente no encontrado');
+        }
+
         $validator = $this->validaciones($request, true, $paciente->idPacientes);
         if ($validator->fails()) {
             return $this->validationErrorResponse('Error de validación', $validator->errors());
@@ -71,8 +80,13 @@ class PacienteController extends Controller
         return $this->successResponse('Paciente actualizado correctamente', $paciente->load(['datosPersonales', 'obraSocial']));
     }
 
-    public function destroy(Paciente $paciente)
+    public function destroy($id)
     {
+        $paciente = Paciente::find($id);
+        if (!$paciente) {
+            return $this->notFoundResponse('Paciente no encontrado');
+        }
+
         // A "destroy" on a patient deactivates the associated user
         if ($paciente->datosPersonales && $paciente->datosPersonales->usuarios) {
             $paciente->datosPersonales->usuarios->update(['estado' => 'Inactivo']);

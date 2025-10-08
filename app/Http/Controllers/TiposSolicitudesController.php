@@ -51,25 +51,39 @@ class TiposSolicitudesController extends Controller
         return $this->createdResponse('Tipo de solicitud creado con éxito', $tipoSolicitud);
     }
 
-    public function show(TipoSolicitud $tipoSolicitude)
+    public function show($id)
     {
-        return $this->successResponse('Tipo de solicitud encontrado', $tipoSolicitude);
+        $tipoSolicitud = TipoSolicitud::find($id);
+        if (!$tipoSolicitud) {
+            return $this->notFoundResponse('Tipo de solicitud no encontrado');
+        }
+        return $this->successResponse('Tipo de solicitud encontrado', $tipoSolicitud);
     }
 
-    public function update(Request $request, TipoSolicitud $tipoSolicitude)
+    public function update(Request $request, $id)
     {
-        $validator = $this->validaciones($request, true, $tipoSolicitude->idTiposSolicitudes);
+        $tipoSolicitud = TipoSolicitud::find($id);
+        if (!$tipoSolicitud) {
+            return $this->notFoundResponse('Tipo de solicitud no encontrado');
+        }
+
+        $validator = $this->validaciones($request, true, $tipoSolicitud->idTiposSolicitudes);
         if ($validator->fails()) {
             return $this->validationErrorResponse('Error de validación', $validator->errors());
         }
 
-        $tipoSolicitude->update($validator->validated());
-        return $this->successResponse('Tipo de solicitud actualizado correctamente', $tipoSolicitude);
+        $tipoSolicitud->update($validator->validated());
+        return $this->successResponse('Tipo de solicitud actualizado correctamente', $tipoSolicitud);
     }
 
-    public function destroy(TipoSolicitud $tipoSolicitude)
+    public function destroy($id)
     {
-        $tipoSolicitude->delete();
+        $tipoSolicitud = TipoSolicitud::find($id);
+        if (!$tipoSolicitud) {
+            return $this->notFoundResponse('Tipo de solicitud no encontrado');
+        }
+
+        $tipoSolicitud->delete();
         return $this->successResponse('Tipo de solicitud eliminado correctamente');
     }
 }
