@@ -42,11 +42,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('indicaciones', IndicacionController::class);
     Route::apiResource('recetas', RecetaController::class);
     Route::apiResource('imagenes', ImagenController::class);
-    Route::apiResource('obras-sociales', ObraSocialController::class);
-    Route::apiResource('pacientes', PacienteController::class);
-    Route::apiResource('formularios-pdfs', FormularioPDFController::class);
+    
 });
-
+// Obras Sociales
+Route::apiResource('obras-sociales', ObraSocialController::class);
+// Pacientes
+Route::apiResource('pacientes', PacienteController::class);
+// Formularios PDFs
+Route::apiResource('formularios-pdfs', FormularioPDFController::class);
 // Horarios
 Route::apiResource('horarios', HorarioController::class);
 

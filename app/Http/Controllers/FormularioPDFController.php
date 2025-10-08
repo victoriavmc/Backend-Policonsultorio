@@ -3,65 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\FormularioPDF;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class FormularioPDFController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ApiResponse;
+
+    private function validaciones(Request $request, bool $isUpdate = false)
+    {
+        $rules = [
+            'tipo' => [$isUpdate ? 'sometimes' : 'nullable', 'string', 'max:45'],
+            'nombre' => [$isUpdate ? 'sometimes' : 'nullable', 'string', 'max:45'],
+            'formulario' => [$isUpdate ? 'sometimes' : 'nullable', 'string', 'max:255'],
+        ];
+
+        return Validator::make($request->all(), $rules);
+    }
+
     public function index()
     {
-        return FormularioPDF::all();
+        $formularios = FormularioPDF::all();
+        if ($formularios->isEmpty()) {
+            return $this->notFoundResponse('No se encontraron formularios PDF');
+        }
+        return $this->successResponse('Formularios PDF encontrados', $formularios);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'tipo' => 'nullable|string|max:45',
-            'nombre' => 'nullable|string|max:45',
-            'formulario' => 'nullable|string|max:255',
-        ]);
+        $validator = $this->validaciones($request);
+        if ($validator->fails()) {
+            return $this->validationErrorResponse('Error de validación', $validator->errors());
+        }
 
-        $formularioPDF = FormularioPDF::create($request->all());
-
-        return response()->json($formularioPDF, 201);
+        $formularioPDF = FormularioPDF::create($validator->validated());
+        return $this->createdResponse('Formulario PDF creado con éxito', $formularioPDF);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(FormularioPDF $formularioPDF)
     {
-        return $formularioPDF;
+        return $this->successResponse('Formulario PDF encontrado', $formularioPDF);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, FormularioPDF $formularioPDF)
     {
-        $request->validate([
-            'tipo' => 'nullable|string|max:45',
-            'nombre' => 'nullable|string|max:45',
-            'formulario' => 'nullable|string|max:255',
-        ]);
+        $validator = $this->validaciones($request, true);
+        if ($validator->fails()) {
+            return $this->validationErrorResponse('Error de validación', $validator->errors());
+        }
 
-        $formularioPDF->update($request->all());
-
-        return response()->json($formularioPDF, 200);
+        $formularioPDF->update($validator->validated());
+        return $this->successResponse('Formulario PDF actualizado correctamente', $formularioPDF);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(FormularioPDF $formularioPDF)
     {
         $formularioPDF->delete();
-
-        return response()->json(null, 204);
+        return $this->successResponse('Formulario PDF eliminado correctamente');
     }
 }

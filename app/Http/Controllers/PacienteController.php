@@ -3,67 +3,82 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paciente;
+use App\Models\User;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class PacienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ApiResponse;
+
+    private function validaciones(Request $request, bool $isUpdate = false, ?int $id = null)
+    {
+        $rules = [
+            'particular' => [$isUpdate ? 'sometimes' : 'required', 'boolean'],
+            'numAfiliado' => 'nullable|string|max:45',
+            'datosPersonales_idDatosPersonales' => [
+                $isUpdate ? 'sometimes' : 'required',
+                'exists:datosPersonales,idDatosPersonales',
+                Rule::unique('pacientes', 'datosPersonales_idDatosPersonales')->ignore($id, 'idPacientes'),
+            ],
+            'obrasSociales_idObrasSociales' => [$isUpdate ? 'sometimes' : 'required', 'exists:obrasSociales,idObrasSociales'],
+        ];
+
+        return Validator::make($request->all(), $rules);
+    }
+
     public function index()
     {
-        return Paciente::with(['datosPersonales', 'obraSocial'])->get();
+        $pacientes = Paciente::with(['datosPersonales', 'obraSocial'])
+            ->whereHas('datosPersonales.usuarios', function ($query) {
+                $query->where('estado', 'Activo');
+            })
+            ->get();
+
+        if ($pacientes->isEmpty()) {
+            return $this->notFoundResponse('No se encontraron pacientes activos');
+        }
+
+        return $this->successResponse('Pacientes encontrados', $pacientes);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'particular' => 'required|boolean',
-            'numAfiliado' => 'nullable|string|max:45',
-            'datosPersonales_idDatosPersonales' => 'required|exists:datosPersonales,idDatosPersonales',
-            'obrasSociales_idObrasSociales' => 'required|exists:obrasSociales,idObrasSociales',
-        ]);
+        $validator = $this->validaciones($request);
+        if ($validator->fails()) {
+            return $this->validationErrorResponse('Error de validación', $validator->errors());
+        }
 
-        $paciente = Paciente::create($request->all());
-
-        return response()->json($paciente, 201);
+        $paciente = Paciente::create($validator->validated());
+        return $this->createdResponse('Paciente creado con éxito', $paciente->load(['datosPersonales', 'obraSocial']));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Paciente $paciente)
     {
-        return $paciente->load(['datosPersonales', 'obraSocial']);
+        return $this->successResponse('Paciente encontrado', $paciente->load(['datosPersonales', 'obraSocial']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Paciente $paciente)
     {
-        $request->validate([
-            'particular' => 'boolean',
-            'numAfiliado' => 'nullable|string|max:45',
-            'datosPersonales_idDatosPersonales' => 'exists:datosPersonales,idDatosPersonales',
-            'obrasSociales_idObrasSociales' => 'exists:obrasSociales,idObrasSociales',
-        ]);
+        $validator = $this->validaciones($request, true, $paciente->idPacientes);
+        if ($validator->fails()) {
+            return $this->validationErrorResponse('Error de validación', $validator->errors());
+        }
 
-        $paciente->update($request->all());
-
-        return response()->json($paciente, 200);
+        $paciente->update($validator->validated());
+        return $this->successResponse('Paciente actualizado correctamente', $paciente->load(['datosPersonales', 'obraSocial']));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Paciente $paciente)
     {
-        $paciente->delete();
+        // A "destroy" on a patient deactivates the associated user
+        if ($paciente->datosPersonales && $paciente->datosPersonales->usuarios) {
+            $paciente->datosPersonales->usuarios->update(['estado' => 'Inactivo']);
+            return $this->successResponse('Paciente (usuario asociado) desactivado correctamente');
+        }
 
-        return response()->json(null, 204);
+        return $this->errorResponse('No se pudo encontrar el usuario asociado a este paciente para desactivarlo.', 'user_not_found', 404);
     }
 }

@@ -45,7 +45,7 @@ class Paciente extends Model
     /**
      * Get the personal data associated with the patient.
      */
-    public function datosPersonale()
+    public function datosPersonales()
     {
         return $this->belongsTo(DatoPersonal::class, 'datosPersonales_idDatosPersonales', 'idDatosPersonales');
     }

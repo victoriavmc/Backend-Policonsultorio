@@ -3,63 +3,73 @@
 namespace App\Http\Controllers;
 
 use App\Models\ObraSocial;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ObraSocialController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ApiResponse;
+
+    private function validaciones(Request $request, bool $isUpdate = false, ?int $id = null)
+    {
+        $rules = [
+            'nombre' => [
+                $isUpdate ? 'sometimes' : 'required',
+                'string',
+                'max:45',
+                Rule::unique('obrasSociales', 'nombre')->ignore($id, 'idObrasSociales'),
+            ],
+            'estado' => [
+                $isUpdate ? 'sometimes' : 'required',
+                'string',
+                Rule::in(['Activo', 'Inactivo', 'Suspendido']),
+            ],
+        ];
+
+        return Validator::make($request->all(), $rules);
+    }
+
     public function index()
     {
-        return ObraSocial::all();
+        $obrasSociales = ObraSocial::where('estado', 'Activo')->get();
+        if ($obrasSociales->isEmpty()) {
+            return $this->notFoundResponse('No se encontraron obras sociales activas');
+        }
+        return $this->successResponse('Obras sociales encontradas', $obrasSociales);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:45',
-            'estado' => 'required|string|in:Activo,Inactivo,Suspendido,ObraSocialInactiva',
-        ]);
+        $validator = $this->validaciones($request);
+        if ($validator->fails()) {
+            return $this->validationErrorResponse('Error de validación', $validator->errors());
+        }
 
-        $obraSocial = ObraSocial::create($request->all());
-
-        return response()->json($obraSocial, 201);
+        $obraSocial = ObraSocial::create($validator->validated());
+        return $this->createdResponse('Obra social creada con éxito', $obraSocial);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(ObraSocial $obraSocial)
     {
-        return $obraSocial;
+        return $this->successResponse('Obra social encontrada', $obraSocial);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, ObraSocial $obraSocial)
     {
-        $request->validate([
-            'nombre' => 'string|max:45',
-            'estado' => 'string|in:Activo,Inactivo,Suspendido,ObraSocialInactiva',
-        ]);
+        $validator = $this->validaciones($request, true, $obraSocial->idObrasSociales);
+        if ($validator->fails()) {
+            return $this->validationErrorResponse('Error de validación', $validator->errors());
+        }
 
-        $obraSocial->update($request->all());
-
-        return response()->json($obraSocial, 200);
+        $obraSocial->update($validator->validated());
+        return $this->successResponse('Obra social actualizada correctamente', $obraSocial);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ObraSocial $obraSocial)
     {
-        $obraSocial->delete();
-
-        return response()->json(null, 204);
+        $obraSocial->update(['estado' => 'Inactivo']);
+        return $this->successResponse('Obra social desactivada correctamente');
     }
 }
