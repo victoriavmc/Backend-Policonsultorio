@@ -56,6 +56,7 @@ Route::apiResource('tipos-solicitudes', TiposSolicitudesController::class);
 Route::apiResource('seguimientos-tratamientos', SeguimientoTratamientoController::class);
 
 // Obras Sociales
+Route::get('obras-sociales/all', [ObraSocialController::class, 'getAll']);
 Route::apiResource('obras-sociales', ObraSocialController::class);
 // Pacientes
 Route::apiResource('pacientes', PacienteController::class);

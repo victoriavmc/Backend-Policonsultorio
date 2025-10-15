@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
             'genero' => 'Otro',
             'celular' => '1234567890',
             'fechaNacimiento' => '1990-01-01',
+            'estado' => 'Activo',
         ]);
 
         User::create([

@@ -40,6 +40,15 @@ class ObraSocialController extends Controller
         return $this->successResponse('Obras sociales encontradas', $obrasSociales);
     }
 
+    public function getAll()
+    {
+        $obrasSociales = ObraSocial::all();
+        if ($obrasSociales->isEmpty()) {
+            return $this->notFoundResponse('No se encontraron obras sociales');
+        }
+        return $this->successResponse('Obras sociales encontradas', $obrasSociales);
+    }
+
     public function store(Request $request)
     {
         $validator = $this->validaciones($request);
