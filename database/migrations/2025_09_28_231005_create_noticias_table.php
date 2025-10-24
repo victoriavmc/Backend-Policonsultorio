@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('idNoticias');
             $table->string('titulo',255);
             $table->string('descripcion',255);
-            $table->string('imagen',255); //principal
-            $table->string('url',255);
+            $table->string('imagen',255)->nullable(); //principal
+            $table->string('url',255)->nullable();
             $table->date('fecha');
             $table->timestamps();
         });
