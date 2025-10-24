@@ -21,6 +21,7 @@ class ObservacionesIA extends Model
 
     // Envia a diagnostico
     public function diagnosticos() {
-        return $this->hasMany(ObservacionesIA::class, 'observacionesIA_idObservacionesIA', 'idImagenesIA');
+        return $this->hasMany(Diagnostico::class, 'observacionesIA_idObservacionesIA', 'idObservacionesIA');
     }
+
 }

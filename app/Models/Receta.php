@@ -57,4 +57,5 @@ class Receta extends Model
     {
         return $this->hasOne(Indicacion::class, 'recetas_idRecetas', 'idRecetas');
     }
+
 }

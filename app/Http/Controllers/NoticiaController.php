@@ -161,7 +161,7 @@ class NoticiaController extends Controller
             Storage::disk('public')->delete($noticia->imagen);
         }
 
-        // Desvincular imágenes secundarias
+        // Desvincular imágenes secundarias y eliminarlas tanto de la tabla como de su storage
         $noticia->imagenes()->detach();
 
         $noticia->delete();
