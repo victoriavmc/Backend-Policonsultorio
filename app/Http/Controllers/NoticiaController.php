@@ -45,14 +45,14 @@ class NoticiaController extends Controller
             }
         }
 
-        $rules = [
+       $rules = [
             'titulo'      => ($isUpdate ? 'nullable' : 'required') . '|string|max:255',
             'descripcion' => ($isUpdate ? 'nullable' : 'required') . '|string|max:255',
-            'imagen'      => ($isUpdate ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,webp|max:4096', // Ver (@santi imagenes)
-            'url'         => ($isUpdate ? 'nullable' : 'required') . '|string|max:255|url',
+            'imagen'      => 'nullable|sometimes|image|mimes:jpeg,png,jpg,webp|max:4096',
+            'url'         => 'nullable|sometimes|string|max:255|url',
             'fecha'       => ($isUpdate ? 'nullable' : 'required') . '|date_format:Y-m-d',
-            'imagenes'    => 'nullable|array',// Ver (@santi imagenes)
-            'imagenes.*'  => 'exists:imagenes,idImagenes',// Ver (@santi imagenes)
+            'imagenes'    => 'nullable|array',
+            'imagenes.*'  => 'exists:imagenes,idImagenes',
         ];
 
         return Validator::make($data, $rules);
@@ -104,26 +104,23 @@ class NoticiaController extends Controller
     /**
      * Mostrar una noticia específica con sus imágenes.
      */
-    public function show(Noticia $noticia)
+    public function show($id)
     {
+        $noticia = Noticia::with('imagenes')->find($id);
+
         if (!$noticia) {
             return $this->notFoundResponse('Noticia no encontrada.');
         }
 
-        $noticia->load('imagenes');
-
         return $this->successResponse('Noticia obtenida correctamente.', $noticia, 200);
     }
+
 
     /**
      * Actualizar una noticia existente.
      */
     public function update(Request $request, Noticia $noticia)
     {
-        if (!$noticia) {
-            return $this->notFoundResponse('Noticia no encontrada.');
-        }
-
         $validator = $this->validar($request, true);
 
         if ($validator->fails()) {
@@ -132,7 +129,6 @@ class NoticiaController extends Controller
 
         $data = $validator->validated();
 
-        // Si hay nueva imagen principal, reemplazar la anterior
         if ($request->hasFile('imagen')) {
             if ($noticia->imagen && Storage::disk('public')->exists($noticia->imagen)) {
                 Storage::disk('public')->delete($noticia->imagen);
@@ -143,13 +139,13 @@ class NoticiaController extends Controller
 
         $noticia->update($data);
 
-        // Actualizar imágenes secundarias si se pasan
         if (!empty($data['imagenes'])) {
             $noticia->imagenes()->syncWithoutDetaching($data['imagenes']);
         }
 
         return $this->successResponse('Noticia actualizada correctamente.', $noticia->load('imagenes'), 200);
     }
+
 
     /**
      * Eliminar una noticia.
@@ -165,7 +161,7 @@ class NoticiaController extends Controller
             Storage::disk('public')->delete($noticia->imagen);
         }
 
-        // Desvincular imágenes secundarias
+        // Desvincular imágenes secundarias y eliminarlas tanto de la tabla como de su storage
         $noticia->imagenes()->detach();
 
         $noticia->delete();
@@ -185,7 +181,7 @@ class NoticiaController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'imagenes' => 'required|array',
+            'imagenes' => 'sometimes|array',
             'imagenes.*' => 'exists:imagenes,idImagenes',
         ]);
 

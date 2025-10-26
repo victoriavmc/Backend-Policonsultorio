@@ -84,10 +84,10 @@ Route::apiResource('turnos', TurnoController::class);
 Route::apiResource('diagnosticos', DiagnosticosController::class);
 
 // HistorialClinico
-Route::apiResource('historialClinico', HistorialClinicoController::class);
+Route::apiResource('historialClinicos', HistorialClinicoController::class);
 
 // Noticias
-Route::apiResource('noticia', NoticiaController::class);
+Route::apiResource('noticias', NoticiaController::class);
 
 // Consultas
 Route::apiResource('consultas', ConsultaController::class);
