@@ -29,9 +29,9 @@ class DatoPersonal extends Model
         'documento',
         'tipoDocumento',
         'celular',
-        'direccion',
         'fechaNacimiento',
         'genero',
+        'estado',
     ];
 
     /**
@@ -40,7 +40,7 @@ class DatoPersonal extends Model
     protected $casts = [
         'fechaNacimiento' => 'date',
         'documento' => 'string',
-        'telefono' => 'string',
+        'celular' => 'string',
     ];
 
     /**

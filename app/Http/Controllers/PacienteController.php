@@ -31,14 +31,10 @@ class PacienteController extends Controller
 
     public function index()
     {
-        $pacientes = Paciente::with(['datosPersonales', 'obraSocial'])
-            ->whereHas('datosPersonales.usuarios', function ($query) {
-                $query->where('estado', 'Activo');
-            })
-            ->get();
+        $pacientes = Paciente::with(['datosPersonales', 'obraSocial'])->get();
 
         if ($pacientes->isEmpty()) {
-            return $this->notFoundResponse('No se encontraron pacientes activos');
+            return $this->notFoundResponse('No se encontraron pacientes');
         }
 
         return $this->successResponse('Pacientes encontrados', $pacientes);
