@@ -40,28 +40,54 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::apiResource('datos-personales', DatoPersonalController::class)
     ->parameters(['datos-personales' => 'id']);
+
 Route::apiResource('usuarios', UserController::class)->except(['store', 'destroy', 'update']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('auditorias', AuditoriasController::class);
     Route::apiResource('indicaciones', IndicacionController::class);
     Route::apiResource('recetas', RecetaController::class);
     Route::apiResource('imagenes', ImagenController::class);
-    
+
+    Route::middleware('role:medico, secretario, usuario')->group(function () {
+
+    });
+
+    Route::middleware('role:medico, secretario')->group(function () {
+
+    });
+
+    Route::middleware('role:medico')->group(function() {
+
+    });
+
+    Route::middleware('role:secretario')->group(function() {
+
+    });
+
+    Route::middleware('role:usuario')->group(function() {
+
+    });
 });
 // Solicitudes
-Route::apiResource('solicitudes', SolicitudesController::class);
+Route::apiResource('solicitudes', SolicitudesController::class)->middleware('role:medico');
+
 // Tipos Solicitudes
 Route::apiResource('tipos-solicitudes', TiposSolicitudesController::class);
+
 // Seguimiento Tratamiento
 Route::apiResource('seguimientos-tratamientos', SeguimientoTratamientoController::class);
 
 // Obras Sociales
 Route::get('obras-sociales/all', [ObraSocialController::class, 'getAll']);
 Route::apiResource('obras-sociales', ObraSocialController::class);
+
 // Pacientes
 Route::apiResource('pacientes', PacienteController::class);
+
 // Formularios PDFs
 Route::apiResource('formularios-pdfs', FormularioPDFController::class);
+
 // Horarios
 Route::apiResource('horarios', HorarioController::class);
 
