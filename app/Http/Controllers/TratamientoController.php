@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tratamiento;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class TratamientoController extends Controller

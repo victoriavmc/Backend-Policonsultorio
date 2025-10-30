@@ -45,184 +45,202 @@ Route::apiResource('usuarios', UserController::class)->except(['store', 'destroy
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Auditorias
-    Route::controller(AuditoriasController::class)->group(function () {
-        Route::get('/auditorias', 'index');
-        Route::post('/auditorias', 'store');
-        Route::get('/auditorias/{id}', 'show');
-        Route::put('/auditorias/{id}', 'update');
-        Route::delete('/auditorias/{id}', 'destroy');
-    });
+    // Auditorias (Medico solamente)
+    Route::controller(AuditoriasController::class)
+        ->middleware('role:medico')
+        ->group(function () {
+            Route::get('/auditorias', 'index');
+            Route::post('/auditorias', 'store');
+            Route::get('/auditorias/{id}', 'show');
+            Route::put('/auditorias/{id}', 'update');
+            Route::delete('/auditorias/{id}', 'destroy');
+        });
 
-    // Indicaciones
+    // Indicaciones (El medico puede crear, ver, actualizar y eliminar y el secretario solamente ver)
     Route::controller(IndicacionController::class)->group(function () {
-        Route::get('/indicaciones', 'index');
-        Route::post('/indicaciones', 'store');
-        Route::get('/indicaciones/{id}', 'show');
-        Route::put('/indicaciones/{id}', 'update');
-        Route::delete('/indicaciones/{id}', 'destroy');
+        Route::get('/indicaciones', 'index')->middleware('role:medico,secretario');
+        Route::post('/indicaciones', 'store')->middleware('role:medico');
+        Route::get('/indicaciones/{id}', 'show')->middleware('role:medico,secretario');
+        Route::put('/indicaciones/{id}', 'update')->middleware('role:medico');
+        Route::delete('/indicaciones/{id}', 'destroy')->middleware('role:medico');
     });
 
-    // Recetas
+    // Recetas (Medico puede crear, ver, actualizar y eliminar, el secretario no va a poder eliminar)
     Route::controller(RecetaController::class)->group(function () {
-        Route::get('/recetas', 'index');
-        Route::post('/recetas', 'store');
-        Route::get('/recetas/{id}', 'show');
-        Route::put('/recetas/{id}', 'update');
-        Route::delete('/recetas/{id}', 'destroy');
+        Route::get('/recetas', 'index')->middleware('role:medico,secretario');
+        Route::post('/recetas', 'store')->middleware('role:medico,secretario');
+        Route::get('/recetas/{id}', 'show')->middleware('role:medico,secretario');
+        Route::put('/recetas/{id}', 'update')->middleware('role:medico,secretario');
+        Route::delete('/recetas/{id}', 'destroy')->middleware('role:medico');
     });
 
-    // Imagenes
-    Route::controller(ImagenController::class)->group(function () {
-        Route::get('/imagenes', 'index');
-        Route::post('/imagenes', 'store');
-        Route::get('/imagenes/{id}', 'show');
-        Route::put('/imagenes/{id}', 'update');
-        Route::delete('/imagenes/{id}', 'destroy');
-    });
+    // Imagenes (Medico, secretario y paciente pueden ver, crear, actualizar y eliminar)
+    Route::controller(ImagenController::class)
+        ->middleware('role:medico,secretario,paciente')
+        ->group(function () {
+            Route::get('/imagenes', 'index');
+            Route::post('/imagenes', 'store');
+            Route::get('/imagenes/{id}', 'show');
+            Route::put('/imagenes/{id}', 'update');
+            Route::delete('/imagenes/{id}', 'destroy');
+        });
 
-    // Solicitudes
+    // Solicitudes (Medico puede crear, ver, actualizar y eliminar, el secretario solamente puede ver)
     Route::controller(SolicitudesController::class)->group(function () {
-        Route::get('/solicitudes', 'index');
-        Route::post('/solicitudes', 'store');
-        Route::get('/solicitudes/{id}', 'show');
-        Route::put('/solicitudes/{id}', 'update');
-        Route::delete('/solicitudes/{id}', 'destroy');
+        Route::get('/solicitudes', 'index')->middleware('role:medico,secretario');
+        Route::post('/solicitudes', 'store')->middleware('role:medico');
+        Route::get('/solicitudes/{id}', 'show')->middleware('role:medico,secretario');
+        Route::put('/solicitudes/{id}', 'update')->middleware('role:medico');
+        Route::delete('/solicitudes/{id}', 'destroy')->middleware('role:medico');
     });
 
-    // Tipos Solicitudes
+    // Tipos Solicitudes (Medico puede crear, ver, actualizar y eliminar, el secretario no puede eliminar)
     Route::controller(TiposSolicitudesController::class)->group(function () {
-        Route::get('/tipos-solicitudes', 'index');
-        Route::post('/tipos-solicitudes', 'store');
-        Route::get('/tipos-solicitudes/{id}', 'show');
-        Route::put('/tipos-solicitudes/{id}', 'update');
-        Route::delete('/tipos-solicitudes/{id}', 'destroy');
+        Route::get('/tipos-solicitudes', 'index')->middleware('role:medico,secretario');
+        Route::post('/tipos-solicitudes', 'store')->middleware('role:medico,secretario');
+        Route::get('/tipos-solicitudes/{id}', 'show')->middleware('role:medico,secretario');
+        Route::put('/tipos-solicitudes/{id}', 'update')->middleware('role:medico,secretario');
+        Route::delete('/tipos-solicitudes/{id}', 'destroy')->middleware('role:medico');
     });
 
-    // Seguimiento Tratamiento
+    // Seguimiento Tratamiento (Medico puede crear, ver, actualizar y eliminar, el secretario solamente puede ver)
     Route::controller(SeguimientoTratamientoController::class)->group(function () {
-        Route::get('/seguimientos-tratamientos', 'index');
-        Route::post('/seguimientos-tratamientos', 'store');
-        Route::get('/seguimientos-tratamientos/{id}', 'show');
-        Route::put('/seguimientos-tratamientos/{id}', 'update');
-        Route::delete('/seguimientos-tratamientos/{id}', 'destroy');
+        Route::get('/seguimientos-tratamientos', 'index')->middleware('role:medico,secretario');
+        Route::post('/seguimientos-tratamientos', 'store')->middleware('role:medico');
+        Route::get('/seguimientos-tratamientos/{id}', 'show')->middleware('role:medico,secretario');
+        Route::put('/seguimientos-tratamientos/{id}', 'update')->middleware('role:medico');
+        Route::delete('/seguimientos-tratamientos/{id}', 'destroy')->middleware('role:medico');
     });
 
-    // Obras Sociales
-    Route::controller(ObraSocialController::class)->group(function () {
-        Route::get('/obras-sociales/all', 'getAll');
-        Route::get('/obras-sociales', 'index');
-        Route::post('/obras-sociales', 'store');
-        Route::get('/obras-sociales/{id}', 'show');
-        Route::put('/obras-sociales/{id}', 'update');
-        Route::delete('/obras-sociales/{id}', 'destroy');
-    });
+    // Obras Sociales (Medico y secretario pueden ver, crear, actualizar, eliminar)
+    Route::controller(ObraSocialController::class)
+        ->middleware('role:medico,secretario')
+        ->group(function () {
+            Route::get('/obras-sociales/all', 'getAll');
+            Route::get('/obras-sociales', 'index');
+            Route::post('/obras-sociales', 'store');
+            Route::get('/obras-sociales/{id}', 'show');
+            Route::put('/obras-sociales/{id}', 'update');
+            Route::delete('/obras-sociales/{id}', 'destroy');
+        });
 
-    // Pacientes
+    // Pacientes (Medico y secretario pueden ver, crear, actualizar, eliminar, paciente solo puede ver EL SUYO)
     Route::controller(PacienteController::class)->group(function () {
-        Route::get('/pacientes', 'index');
-        Route::post('/pacientes', 'store');
-        Route::get('/pacientes/{id}', 'show');
-        Route::put('/pacientes/{id}', 'update');
-        Route::delete('/pacientes/{id}', 'destroy');
+        Route::get('/pacientes', 'index')->middleware('role:medico,secretario');
+        Route::post('/pacientes', 'store')->middleware('role:medico,secretario');
+        Route::get('/pacientes/{id}', 'show')->middleware('role:medico,secretario,paciente');
+        Route::put('/pacientes/{id}', 'update')->middleware('role:medico,secretario');
+        Route::delete('/pacientes/{id}', 'destroy')->middleware('role:medico,secretario');
     });
 
-    // Formularios PDFs
-    Route::controller(FormularioPDFController::class)->group(function () {
-        Route::get('/formularios-pdfs', 'index');
-        Route::post('/formularios-pdfs', 'store');
-        Route::get('/formularios-pdfs/{id}', 'show');
-        Route::put('/formularios-pdfs/{id}', 'update');
-        Route::delete('/formularios-pdfs/{id}', 'destroy');
-    });
+    // Formularios PDFs (Medico y secretario pueden ver, crear, actualizar, eliminar)
+    Route::controller(FormularioPDFController::class)
+        ->middleware('role:medico,secretario')
+        ->group(function () {
+            Route::get('/formularios-pdfs', 'index');
+            Route::post('/formularios-pdfs', 'store');
+            Route::get('/formularios-pdfs/{id}', 'show');
+            Route::put('/formularios-pdfs/{id}', 'update');
+            Route::delete('/formularios-pdfs/{id}', 'destroy');
+        });
 
-    // Horarios
-    Route::controller(HorarioController::class)->group(function () {
-        Route::get('/horarios', 'index');
-        Route::post('/horarios', 'store');
-        Route::get('/horarios/{id}', 'show');
-        Route::put('/horarios/{id}', 'update');
-        Route::delete('/horarios/{id}', 'destroy');
-    });
+    // Horarios (Medico y secretario pueden ver, crear, actualizar, eliminar)
+    Route::controller(HorarioController::class)
+        ->middleware('role:medico,secretario')
+        ->group(function () {
+            Route::get('/horarios', 'index');
+            Route::post('/horarios', 'store');
+            Route::get('/horarios/{id}', 'show');
+            Route::put('/horarios/{id}', 'update');
+            Route::delete('/horarios/{id}', 'destroy');
+        });
 
-    // Medicos
+    // Medicos (Medico puede ver, crear, actualizar, eliminar, secretario y paciente solo pueden ver)
     Route::controller(MedicoController::class)->group(function () {
-        Route::get('/medicos', 'index');
-        Route::post('/medicos', 'store');
-        Route::get('/medicos/{id}', 'show');
-        Route::put('/medicos/{id}', 'update');
-        Route::delete('/medicos/{id}', 'destroy');
+        Route::get('/medicos', 'index')->middleware('role:medico,secretario,paciente');
+        Route::post('/medicos', 'store')->middleware('role:medico');
+        Route::get('/medicos/{id}', 'show')->middleware('role:medico,secretario,paciente');
+        Route::put('/medicos/{id}', 'update')->middleware('role:medico');
+        Route::delete('/medicos/{id}', 'destroy')->middleware('role:medico');
     });
 
-    // HorariosMedicos
-    Route::controller(HorariosMedicoController::class)->group(function () {
-        Route::get('/horariosMedicos', 'index');
-        Route::post('/horariosMedicos', 'store');
-        Route::get('/horariosMedicos/{id}', 'show');
-        Route::put('/horariosMedicos/{id}', 'update');
-        Route::delete('/horariosMedicos/{id}', 'destroy');
-    });
+    // HorariosMedicos (Medico y secretario pueden ver, crear, actualizar, eliminar)
+    Route::controller(HorariosMedicoController::class)
+        ->middleware('role:medico,secretario')
+        ->group(function () {
+            Route::get('/horariosMedicos', 'index');
+            Route::post('/horariosMedicos', 'store');
+            Route::get('/horariosMedicos/{id}', 'show');
+            Route::put('/horariosMedicos/{id}', 'update');
+            Route::delete('/horariosMedicos/{id}', 'destroy');
+        });
 
-    // Seguimiento Pago
+    // Seguimiento Pago (Secretario: puede crear, actualizar, modificar y eliminar. Medico: ver y eliminar)
     Route::controller(SeguimientosPagoController::class)->group(function () {
-        Route::get('/seguimientosPagos', 'index');
-        Route::post('/seguimientosPagos', 'store');
-        Route::get('/seguimientosPagos/{id}', 'show');
-        Route::put('/seguimientosPagos/{id}', 'update');
-        Route::delete('/seguimientosPagos/{id}', 'destroy');
+        Route::get('/seguimientosPagos', 'index')->middleware('role:secretario,medico');
+        Route::post('/seguimientosPagos', 'store')->middleware('role:secretario');
+        Route::get('/seguimientosPagos/{id}', 'show')->middleware('role:secretario,medico');
+        Route::put('/seguimientosPagos/{id}', 'update')->middleware('role:secretario');
+        Route::delete('/seguimientosPagos/{id}', 'destroy')->middleware('role:secretario,medico');
     });
 
-    // Tratamientos
+    // Tratamientos (Medico y secretario pueden crear, actualizar, modificar y eliminar, paciente solamente puede ver EL SUYO)
     Route::controller(TratamientoController::class)->group(function () {
-        Route::get('/tratamientos', 'index');
-        Route::post('/tratamientos', 'store');
-        Route::get('/tratamientos/{id}', 'show');
-        Route::put('/tratamientos/{id}', 'update');
-        Route::delete('/tratamientos/{id}', 'destroy');
+        Route::get('/tratamientos', 'index')->middleware('role:medico,secretario');
+        Route::post('/tratamientos', 'store')->middleware('role:medico,secretario');
+        Route::get('/tratamientos/{id}', 'show')->middleware('role:medico,secretario,paciente');
+        Route::put('/tratamientos/{id}', 'update')->middleware('role:medico,secretario');
+        Route::delete('/tratamientos/{id}', 'destroy')->middleware('role:medico,secretario');
     });
 
-    // Turnos 
-    Route::controller(TurnoController::class)->group(function () {
-        Route::get('/turnos', 'index');
-        Route::post('/turnos', 'store');
-        Route::get('/turnos/{id}', 'show');
-        Route::put('/turnos/{id}', 'update');
-        Route::delete('/turnos/{id}', 'destroy');
-    });
+    // Turnos (Medico y secretario pueden ver, crear, actualizar, eliminar)
+    Route::controller(TurnoController::class)
+        ->middleware('role:medico,secretario')
+        ->group(function () {
+            Route::get('/turnos', 'index');
+            Route::post('/turnos', 'store');
+            Route::get('/turnos/{id}', 'show');
+            Route::put('/turnos/{id}', 'update');
+            Route::delete('/turnos/{id}', 'destroy');
+        });
 
-    // Diagnosticos
+    // Diagnosticos (Medico pueden crear, ver, actualizar y eliminar, el secretario solamente puede ver)
     Route::controller(DiagnosticosController::class)->group(function () {
-        Route::get('/diagnosticos', 'index');
-        Route::post('/diagnosticos', 'store');
-        Route::get('/diagnosticos/{id}', 'show');
-        Route::put('/diagnosticos/{id}', 'update');
-        Route::delete('/diagnosticos/{id}', 'destroy');
+        Route::get('/diagnosticos', 'index')->middleware('role:medico,secretario');
+        Route::post('/diagnosticos', 'store')->middleware('role:medico');
+        Route::get('/diagnosticos/{id}', 'show')->middleware('role:medico,secretario');
+        Route::put('/diagnosticos/{id}', 'update')->middleware('role:medico');
+        Route::delete('/diagnosticos/{id}', 'destroy')->middleware('role:medico');
     });
 
-    // HistorialClinico
-    Route::controller(HistorialClinicoController::class)->group(function () {
-        Route::get('/historialClinicos', 'index');
-        Route::post('/historialClinicos', 'store');
-        Route::get('/historialClinicos/{id}', 'show');
-        Route::put('/historialClinicos/{id}', 'update');
-        Route::delete('/historialClinicos/{id}', 'destroy');
-    });
+    // HistorialClinico (Medico y secretario pueden ver, crear, actualizar, eliminar)
+    Route::controller(HistorialClinicoController::class)
+        ->middleware('role:medico,secretario')
+        ->group(function () {
+            Route::get('/historialClinicos', 'index');
+            Route::post('/historialClinicos', 'store');
+            Route::get('/historialClinicos/{id}', 'show');
+            Route::put('/historialClinicos/{id}', 'update');
+            Route::delete('/historialClinicos/{id}', 'destroy');
+        });
 
-    // Noticias
+    // Noticias (Medico y secretario pueden crear, actualizar, modificar y eliminar, paciente solo puede ver)
     Route::controller(NoticiaController::class)->group(function () {
-        Route::get('/noticias', 'index');
-        Route::post('/noticias', 'store');
-        Route::get('/noticias/{id}', 'show');
-        Route::put('/noticias/{id}', 'update');
-        Route::delete('/noticias/{id}', 'destroy');
+        Route::get('/noticias', 'index')->middleware('role:medico,secretario,pacientes');
+        Route::post('/noticias', 'store')->middleware('role:medico,secretario');
+        Route::get('/noticias/{id}', 'show')->middleware('role:medico,secretario,pacientes');
+        Route::put('/noticias/{id}', 'update')->middleware('role:medico,secretario');
+        Route::delete('/noticias/{id}', 'destroy')->middleware('role:medico,secretario');
     });
 
-    // Consultas
-    Route::controller(ConsultaController::class)->group(function () {
-        Route::get('/consultas', 'index');
-        Route::post('/consultas', 'store');
-        Route::get('/consultas/{id}', 'show');
-        Route::put('/consultas/{id}', 'update');
-        Route::delete('/consultas/{id}', 'destroy');
-    });
+    // Consultas (Medico y secretario pueden ver, crear, actualizar, eliminar)
+    Route::controller(ConsultaController::class)
+        ->middleware('role:medico,secretario')
+        ->group(function () {
+            Route::get('/consultas', 'index');
+            Route::post('/consultas', 'store');
+            Route::get('/consultas/{id}', 'show');
+            Route::put('/consultas/{id}', 'update');
+            Route::delete('/consultas/{id}', 'destroy');
+        });
 });

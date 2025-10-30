@@ -6,6 +6,7 @@ use App\Models\Paciente;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -53,10 +54,22 @@ class PacienteController extends Controller
 
     public function show($id)
     {
-        $paciente = Paciente::with(['datosPersonales', 'obraSocial'])->find($id);
+        $paciente = Paciente::find($id);
+
         if (!$paciente) {
             return $this->notFoundResponse('Paciente no encontrado');
         }
+
+        $user = Auth::user();
+
+        if ($user->rol === 'paciente') {
+            if ($user->datosPersonales_idDatosPersonales != $paciente->datosPersonales_idDatosPersonales) {
+                return $this->errorResponse('No tienes permiso para ver este registro', 'forbidden', 403);
+            }
+        }
+
+        $paciente->load('datosPersonales', 'obraSocial');
+
         return $this->successResponse('Paciente encontrado', $paciente);
     }
 
