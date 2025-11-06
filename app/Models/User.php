@@ -38,7 +38,7 @@ class User extends Authenticatable
         'pin_blocked_until', // tiempo de bloqueo de la solicitud del pin
         'datosPersonales_idDatosPersonales',
         'estado', // FALTAN ATRIBUTOS
-
+        //XD
     ];
 
     /**

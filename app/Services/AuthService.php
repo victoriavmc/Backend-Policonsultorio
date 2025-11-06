@@ -10,6 +10,42 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
+    protected $datoPersonalService;
+
+    public function __construct(DatoPersonalService $datoPersonalService)
+    {
+        $this->datoPersonalService = $datoPersonalService;
+    }
+
+    /**
+     * Registra un nuevo usuario y crea un token para él.
+     *
+     * @param array $data
+     * @return User|null
+     */
+    public function register(array $validatedData): ?User
+    {
+        $nuevoDatoPersonal = $this->datoPersonalService->createDatoPersonal([
+            'nombre' => $validatedData['nombre'],
+            'apellido' => $validatedData['apellido'],
+            'documento' => $validatedData['documento'],
+            'tipoDocumento' => $validatedData['tipoDocumento'],
+            'celular' => $validatedData['celular'],
+            'fechaNacimiento' => $validatedData['fechaNacimiento'],
+            'genero' => $validatedData['genero'],
+            'estado' => 'Activo',
+        ]);
+
+        $user = User::create([
+            'email' => $validatedData['email'],
+            'password' => $validatedData['password'],
+            'datosPersonales_idDatosPersonales' => $nuevoDatoPersonal->idDatosPersonales,
+            'estado' => 'Activo',
+        ]);
+
+        return $user;
+    }
+
 
     /**
      * Intenta autenticar y crear un token para el usuario.

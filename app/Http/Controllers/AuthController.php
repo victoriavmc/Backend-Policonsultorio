@@ -4,20 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\SendPinRequest;
 use App\Http\Requests\Auth\VerifyPinRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class AuthController extends Controller
 {
-    protected $authService;
+    protected AuthService $authService;
 
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
+    }
+
+    public function register(RegisterRequest $request): JsonResponse
+    {
+        try {
+            $user = $this->authService->register($request->validated());
+
+            if (!$user) {
+                return response()->json(['message' => 'Error durante el registro.'], 500);
+            }
+
+            $token = $user->createToken("api-token-de-" . $user->email)->plainTextToken;
+
+            return response()->json([
+                'message' => 'Usuario registrado exitosamente.',
+                'user' => [
+                    'email' => $user->email,
+                    'nombre' => $user->datosPersonales->nombre,
+                ],
+                'token' => $token,
+            ], 201);
+
+        } catch (Throwable $e) {
+            return response()->json(['message' => 'Ocurrió un error en el servidor.'], 500);
+        }
     }
 
     public function login(LoginRequest $request): JsonResponse
